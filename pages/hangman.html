@@ -22,22 +22,45 @@
     </div>
 
     <!-- Hangman and Gallows, Positioned Separately at the Bottom Right -->
-    <div id="hangman-container" class="hangman-container">
-      <div class="gallows">
-        <div class="pole"></div>
-        <div class="horizontal-bar"></div>
-        <div class="rope"></div>
-        <div class="noose"></div>
-      </div>
-
-      <div class="hangman">
-        <div class="head"></div>
-        <div class="body"></div>
-        <div class="left-arm"></div>
-        <div class="right-arm"></div>
-        <div class="left-leg"></div>
-        <div class="right-leg"></div>
-      </div>
+    <div id="hangman-container">
+      <svg id="hangman-svg" width="200" height="250" viewBox="0 0 200 250">
+        <!-- Gallows bottom bar -->
+        <line
+          x1="20"
+          y1="220"
+          x2="100"
+          y2="220"
+          stroke="black"
+          stroke-width="5"
+        />
+        <!-- Tall bar -->
+        <line
+          x1="60"
+          y1="220"
+          x2="60"
+          y2="20"
+          stroke="black"
+          stroke-width="5"
+        />
+        <!-- top short bar  -->
+        <line
+          x1="60"
+          y1="20"
+          x2="140"
+          y2="20"
+          stroke="black"
+          stroke-width="5"
+        />
+        <!-- drop down bar for the hanging part -->
+        <line
+          x1="140"
+          y1="20"
+          x2="140"
+          y2="50"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
     </div>
 
     <script src="../style/hangman.js"></script>

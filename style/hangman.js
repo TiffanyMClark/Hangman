@@ -4,39 +4,29 @@ let selectedWord = "";
 let guessedLetters = new Set();
 
 const bodyParts = [
-  ".head",
-  ".body",
-  ".left-arm",
-  ".right-arm",
-  ".left-leg",
-  ".right-leg",
-  ".eye",
+  "head",
+  "body",
+  "left-arm",
+  "right-arm",
+  "left-leg",
+  "right-leg",
 ];
 
 // Updates the Hangman figure
 const updateHangman = () => {
-  if (incorrectGuesses === 0) {
-    document.querySelector(".rope").style.display = "block";
-  } else if (incorrectGuesses === 1) {
-    document.querySelector(".head").style.display = "block";
-  } else if (incorrectGuesses === 2) {
-    document.querySelector(".body").style.display = "block";
-  } else if (incorrectGuesses === 3) {
-    document.querySelector(".left-arm").style.display = "block";
-  } else if (incorrectGuesses === 4) {
-    document.querySelector(".right-arm").style.display = "block";
-  } else if (incorrectGuesses === 5) {
-    document.querySelector(".left-leg").style.display = "block";
-  } else if (incorrectGuesses === 6) {
-    document.querySelector(".right-leg").style.display = "block";
-    alert(`Game Over!`);
-    if (currentUser) {
-      updateScore(currentUser, "loss");
-    }
-    resetGame();
-  }
+  if (incorrectGuesses < bodyParts.length) {
+    document.getElementById(bodyParts[incorrectGuesses]).style.display =
+      "block";
+    incorrectGuesses++;
 
-  incorrectGuesses++;
+    if (incorrectGuesses === bodyParts.length) {
+      setTimeout(() => {
+        alert(`Game Over!`);
+        if (currentUser) updateScore(currentUser, "loss");
+        resetGame();
+      }, 500);
+    }
+  }
 };
 
 // Handle user guesses
@@ -45,9 +35,11 @@ function handleGuess(letter) {
     guessedLetters.add(letter);
     updateDisplay();
     if (isWin()) {
-      alert("Congratulations!");
-      updateScore(currentUser, "win");
-      resetGame();
+      setTimeout(() => {
+        alert("Congratulations!");
+        updateScore(currentUser, "win");
+        resetGame();
+      }, 500);
     }
   } else {
     updateHangman();
@@ -71,8 +63,10 @@ function updateDisplay() {
 async function resetGame() {
   incorrectGuesses = 0;
   guessedLetters.clear();
-  document.querySelectorAll(".hangman-part").forEach((part) => {
-    part.style.display = "none";
+
+  // Hide all hangman parts
+  bodyParts.forEach((part) => {
+    document.getElementById(part).style.display = "none";
   });
 
   // Clear previous letter buttons
@@ -85,7 +79,6 @@ async function resetGame() {
 // Fetch a new word from the API
 async function fetchNewWord() {
   try {
-    // Simulated API response
     let mockData = [
       {
         riddle: "I speak without a mouth and hear without ears. What am I?",
@@ -93,8 +86,8 @@ async function fetchNewWord() {
       },
     ];
 
-    selectedWord = mockData[0].answer.toLowerCase(); // Use the answer from the mock data
-    document.getElementById("riddle-display").innerText = mockData[0].riddle; // Display the riddle
+    selectedWord = mockData[0].answer.toLowerCase();
+    document.getElementById("riddle-display").innerText = mockData[0].riddle;
     updateDisplay();
   } catch (error) {
     console.error("Error fetching word:", error);
@@ -119,7 +112,7 @@ function updateScore(username, result) {
 
 function createLetterButtons() {
   const lettersContainer = document.getElementById("letters-container");
-  lettersContainer.innerHTML = ""; // Clear previous buttons
+  lettersContainer.innerHTML = "";
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -129,8 +122,8 @@ function createLetterButtons() {
     button.classList.add("letter-button");
     button.onclick = () => {
       handleGuess(letter);
-      button.disabled = true; // Disable after clicking
-      button.classList.add("used"); //styling for used letters
+      button.disabled = true;
+      button.classList.add("used");
     };
 
     lettersContainer.appendChild(button);
