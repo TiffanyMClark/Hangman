@@ -11,7 +11,7 @@ function login() {
   } else {
     alert("Invalid username or password");
   }
-}
+} 
 
 
 // Add event listener to the login button
