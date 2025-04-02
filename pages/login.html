@@ -4,19 +4,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../style/login.css" />
     <title>Hangman</title>
     <link rel="stylesheet" href="login.css" />
   </head>
     <body>
       <br>
     <h2>Welcome</h2>
+    <br>
+    <h3>Login to your account</h3>
     <form method="post">
       <div class="user-info">
         <label for="username">Username:</label>
+        <br>
         <input type="text" name="username" id="username" required />
         <br><br><br>
         <div><label for="pin">Pin:</label>
+        <br>
         <input type="pin" name="pin" id="pin" required />
       </div>
       </div>
@@ -26,10 +30,15 @@
 
     <br>
     <br>
-    <br>
     <div >
       <button id="login-button" type="button">Play</button>
+      
+      <button id="register-button" type="button">Register</button>
+      <button id="forgot-password-button" type="button">Forgot Pin</button>
     </div>
+    <br>
+    <div id="loading-message" class="loading-message"></div>
+    <br>
   </form>
     
     <script src="login.js"></script>

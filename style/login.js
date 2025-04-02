@@ -7,7 +7,7 @@ function login() {
   // Check if username and pin are correct
   if (username === "username" && pin === "pin") {
     // Redirect to hangman.html
-    window.location.href =  ".\pages\hangman.html";
+    window.location.href =  "../pages/hangman.html";
   } else {
     alert("Invalid username or pin. Please try again.");
   }
