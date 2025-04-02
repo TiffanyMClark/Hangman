@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../style/login.css" />
+    <title>Hangman</title>
+</head>
+<body>
+    <br>
+    <h2>Welcome</h2>
+    <br>
+    <h3>Login to your account</h3>
+    <form method="post">
+        <div class="user-info">
+            <label for="username">Username:</label>
+            <br>
+            <input type="text" name="username" id="username" required />
+            <br><br>
+            <label for="pin">Pin:</label>
+            <br>
+            <input type="password" name="pin" id="pin" required />
+            <br><br>
+            <input type="hidden" name="login" value="true" />
+        </div>
+        <br>
+        <div>
+            <button id="login-button" type="button">Play</button>
+            <br><br>
+            <button id="register-button" type="button">Register</button>
+            <br><br>
+            <button id="forgot-pin-button" type="button">Forgot Pin</button> 
+        </div>
+        <br>
+        <div id="loading-message" class="loading-message"></div>
+    </form>
+
+    <script src="../style/login.js"></script>
+</body>
+</html>
