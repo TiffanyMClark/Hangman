@@ -5,7 +5,7 @@ function login() {
   const password = document.getElementById("password").value;
 
   // Check if username and password are correct
-  if (username === "user" && password === "password") {
+  if (username === "username" && password === "password") {
     // Redirect to hangman.html
     window.location.href = "hangman.html";
   } else {
