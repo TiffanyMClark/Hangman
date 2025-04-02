@@ -2,12 +2,12 @@
 
 function login() {
   const username = document.getElementById("username").value;
-  const password = document.getElementById("pin").value;
+  const pin = document.getElementById("pin").number;
 
-  // Check if username and password are correct
+  // Check if username and pin are correct
   if (username === "username" && pin === "pin") {
     // Redirect to hangman.html
-    window.location.href = "./pages/hangman.html";
+    window.location.href =  "../pages/hangman.html";
   } else {
     alert("Invalid username or pin. Please try again.");
   }
@@ -27,3 +27,4 @@ document.addEventListener("keydown", function(event) {
     login(); // Call the login function
   }
 });
+
