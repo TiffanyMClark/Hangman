@@ -2,14 +2,14 @@
 
 function login() {
   const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const password = document.getElementById("pin").value;
 
   // Check if username and password are correct
-  if (username === "username" && password === "password") {
+  if (username === "username" && pin === "pin") {
     // Redirect to hangman.html
-    window.location.href = "hangman.html";
+    window.location.href = "./pages/hangman.html";
   } else {
-    alert("Invalid username or password");
+    alert("Invalid username or pin. Please try again.");
   }
 } 
 
