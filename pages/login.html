@@ -8,13 +8,17 @@
     <title>Hangman</title>
     <link rel="stylesheet" href="login.css" />
   </head>
-    
+    <body>
       <br>
     <h2>Welcome</h2>
     <form method="post">
       <div class="user-info">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required />
+        <br><br><br>
+        <div><label for="pin">Pin:</label>
+        <input type="pin" name="pin" id="pin" required />
+      </div>
       </div>
     </div>
     </div>
@@ -23,11 +27,11 @@
     <br>
     <br>
     <br>
-    <div id="login">
-      <button type="submit">Play</button>
+    <div >
+      <button id="login-button" type="button">Play</button>
     </div>
   </form>
     
-    <script src="Login.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>
