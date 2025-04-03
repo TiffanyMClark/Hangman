@@ -3,55 +3,56 @@ let currentUser = localStorage.getItem("currentUser") || null;
 let selectedWord = "";
 let guessedLetters = new Set();
 
-const bodyParts = [
-  "head",
-  "body",
-  "left-arm",
-  "right-arm",
-  "left-leg",
-  "right-leg",
-];
-
 // Updates the Hangman figure
 const updateHangman = () => {
-  if (incorrectGuesses < bodyParts.length) {
-    document.getElementById(bodyParts[incorrectGuesses]).style.display =
-      "block";
-    incorrectGuesses++;
+  const parts = [
+    "head",
+    "body",
+    "left-arm",
+    "right-arm",
+    "left-leg",
+    "right-leg",
+  ];
 
-    if (incorrectGuesses === bodyParts.length) {
-      setTimeout(() => {
-        alert(`Game Over!`);
-        if (currentUser) updateScore(currentUser, "loss");
-        resetGame();
-      }, 500);
-    }
+  if (incorrectGuesses < parts.length) {
+    document.getElementById(parts[incorrectGuesses]).style.display = "block";
   }
+
+  if (incorrectGuesses === parts.length - 1) {
+    alert(`Game Over!`);
+    if (currentUser) {
+      updateScore(currentUser, "loss");
+    }
+    resetGame();
+  }
+
+  incorrectGuesses++;
 };
 
-// Handle user guesses
+// Handle user letter guesses
 function handleGuess(letter) {
   if (selectedWord.includes(letter)) {
     guessedLetters.add(letter);
     updateDisplay();
-    if (isWin()) {
-      setTimeout(() => {
-        alert("Congratulations!");
+    setTimeout(() => {
+      if (isWin()) {
+        alert("Congratulations! You won!");
         updateScore(currentUser, "win");
         resetGame();
-      }, 500);
-    }
+      }
+      // delay so you can see all the letters displayed
+    }, 100);
   } else {
     updateHangman();
   }
 }
 
-// Check if user won
+// Check if the user has guessed all letters correctly
 function isWin() {
   return [...selectedWord].every((letter) => guessedLetters.has(letter));
 }
 
-// Update displayed word
+// Update the displayed word with guessed letters
 function updateDisplay() {
   let displayWord = [...selectedWord]
     .map((letter) => (guessedLetters.has(letter) ? letter : "_"))
@@ -64,19 +65,19 @@ async function resetGame() {
   incorrectGuesses = 0;
   guessedLetters.clear();
 
-  // Hide all hangman parts
-  bodyParts.forEach((part) => {
-    document.getElementById(part).style.display = "none";
+  // Hide all Hangman body parts
+  document.querySelectorAll(".hangman-part").forEach((part) => {
+    part.style.display = "none";
   });
 
   // Clear previous letter buttons
   createLetterButtons();
 
-  // Fetch a new word from API
+  // Fetch a new word
   await fetchNewWord();
 }
 
-// Fetch a new word from the API
+// Fetch a new word (mock data for now)
 async function fetchNewWord() {
   try {
     let mockData = [
@@ -94,25 +95,10 @@ async function fetchNewWord() {
   }
 }
 
-// Update wins or losses
-function updateScore(username, result) {
-  if (!username) return;
-
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-  if (users[username]) {
-    if (result === "win") {
-      users[username].wins++;
-    } else if (result === "loss") {
-      users[username].losses++;
-    }
-    localStorage.setItem("users", JSON.stringify(users));
-  }
-}
-
+// Function to create letter buttons
 function createLetterButtons() {
   const lettersContainer = document.getElementById("letters-container");
-  lettersContainer.innerHTML = "";
+  lettersContainer.innerHTML = ""; // Clear previous buttons
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -130,7 +116,41 @@ function createLetterButtons() {
   });
 }
 
-// Handle Sign-up/Login
+// Function to update wins, losses, and streaks
+function updateScore(username, result) {
+  if (!username) return;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (!users[username]) {
+    users[username] = { wins: 0, losses: 0, streak: 0 };
+  }
+
+  if (result === "win") {
+    users[username].wins++;
+    users[username].streak++;
+  } else if (result === "loss") {
+    users[username].losses++;
+    users[username].streak = 0;
+  }
+
+  localStorage.setItem("users", JSON.stringify(users));
+
+  displayScore(username);
+}
+
+// Function to display user score next to the gallows
+function displayScore(username) {
+  if (!username) return;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+  let userData = users[username] || { wins: 0, losses: 0, streak: 0 };
+
+  document.getElementById("wins-count").innerText = userData.wins;
+  document.getElementById("streak-count").innerText = userData.streak;
+}
+
+// Function to handle user sign-up/login
 function handleSignUp(event) {
   event.preventDefault();
   const username = document.getElementById("new-username").value.trim();
@@ -143,7 +163,8 @@ function handleSignUp(event) {
   saveUser(username);
   localStorage.setItem("currentUser", username);
   currentUser = username;
-  alert(`Welcome, ${username}! Your stats: Wins - 0, Losses - 0`);
+  alert(`Welcome, ${username}!`);
+  displayScore(username);
 }
 
 // Save new user if they don't exist
@@ -151,19 +172,22 @@ function saveUser(username) {
   let users = JSON.parse(localStorage.getItem("users")) || {};
 
   if (!users[username]) {
-    users[username] = { wins: 0, losses: 0 };
+    users[username] = { wins: 0, losses: 0, streak: 0 };
     localStorage.setItem("users", JSON.stringify(users));
   }
 }
 
-// Get user’s score
+// Function to get the user's score
 function getScore(username) {
   let users = JSON.parse(localStorage.getItem("users")) || {};
-  return users[username] || { wins: 0, losses: 0 };
+  return users[username] || { wins: 0, losses: 0, streak: 0 };
 }
 
 // Initialize game on page load
 window.onload = () => {
   fetchNewWord();
   createLetterButtons();
+  if (currentUser) {
+    displayScore(currentUser);
+  }
 };

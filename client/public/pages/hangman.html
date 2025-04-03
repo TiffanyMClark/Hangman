@@ -3,7 +3,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <head>
-    <link rel="stylesheet" type="text/css" href="../style/hangman.css" />
+    <link rel="stylesheet" type="text/css" href="./style/hangman.css" />
     <title>Hangman</title>
   </head>
 
@@ -19,6 +19,11 @@
 
       <div id="letters-container" class="letters-container"></div>
       <!-- Letter Selection -->
+    </div>
+    <!--updating score when the user wins and streak for how many they win in a row-->
+    <div id="score-container" class="score-container">
+      <p>Wins: <span id="wins-count">0</span></p>
+      <p>Streak: <span id="streak-count">0</span></p>
     </div>
 
     <!-- Hangman and Gallows, Positioned Separately at the Bottom Right -->
@@ -125,6 +130,6 @@
       </svg>
     </div>
 
-    <script src="../style/hangman.js"></script>
+    <script src="./style/hangman.js"></script>
   </body>
 </html>
