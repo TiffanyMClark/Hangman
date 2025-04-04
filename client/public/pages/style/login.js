@@ -66,3 +66,4 @@ document.getElementById("register-button").addEventListener("click", function(ev
 document.getElementById("forgot-pin-button").addEventListener("click", function() {
   alert("Your PIN is your birth year.");
 });
+
