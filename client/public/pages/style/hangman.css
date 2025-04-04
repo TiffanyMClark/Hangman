@@ -31,6 +31,9 @@ body {
   font-size: 3rem;
   margin-top: 20px;
   margin-bottom: 20px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
+  color: white;
 }
 
 /* Riddle Display */
@@ -39,12 +42,17 @@ body {
   margin-top: 0;
   margin-bottom: 20px;
   padding: 0 10px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
+  color: white;
 }
 
 /* Word Display (under riddle) */
 .word-display {
   font-size: 3rem;
   letter-spacing: 10px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
 }
 
 /* Letter Box Container */
@@ -88,11 +96,15 @@ body {
   right: 5%;
   width: 200px;
   height: 250px;
+  background-color: rgba(0, 191, 255, 0.163);
+  border-radius: 5px;
 }
 .score-container {
   position: absolute;
   bottom: 1%;
   right: 5%;
+  background-color: rgba(0, 191, 255, 0.163);
+  border-radius: 2px;
 }
 .difficulty-container {
   display: grid;
@@ -123,6 +135,6 @@ body {
 }
 
 .difficulty-btn.active {
-  background-color: #4caf50;
+  background-color: #090ce2;
   color: white;
 }
