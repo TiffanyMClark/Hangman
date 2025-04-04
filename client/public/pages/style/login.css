@@ -17,7 +17,7 @@ html {
 }
 body {
     min-height : 100vh;
-    background-image: url();
+    background-image: url('../assets/bg_img.webp');
     background-size: cover;
     background-position: right;
     overflow: hidden;
