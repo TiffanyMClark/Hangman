@@ -8,7 +8,7 @@ body {
   align-items: center;
   width: 100%;
   height: 80vh;
-  background-image: url("./bg.jpg");
+  background-image: url("../assets/bg_img.webp");
   background-size: fill;
   background-position: center;
   background-repeat: no-repeat;
@@ -93,4 +93,36 @@ body {
   position: absolute;
   bottom: 1%;
   right: 5%;
+}
+.difficulty-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 250px;
+  position: absolute;
+  left: 20px;
+  top: 120px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.difficulty-btn {
+  background-color: lightblue;
+  border: none;
+  padding: 15px;
+  font-size: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.difficulty-btn:hover {
+  background-color: deepskyblue;
+  transform: scale(1.1);
+}
+
+.difficulty-btn.active {
+  background-color: #4caf50;
+  color: white;
 }

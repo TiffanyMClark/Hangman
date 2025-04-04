@@ -2,8 +2,13 @@ let incorrectGuesses = 0;
 let currentUser = localStorage.getItem("currentUser") || null;
 let selectedWord = "";
 let guessedLetters = new Set();
-
+let difficulty = "normal";
 // Updates the Hangman figure
+const maxMistakes = {
+  easy: 8,
+  normal: 6,
+  hard: 4,
+};
 const updateHangman = () => {
   const parts = [
     "head",
@@ -14,29 +19,33 @@ const updateHangman = () => {
     "right-leg",
   ];
 
-  if (incorrectGuesses < parts.length) {
-    document.getElementById(parts[incorrectGuesses]).style.display = "block";
-  }
-
-  if (incorrectGuesses === parts.length - 1) {
-    alert(`Game Over!`);
-    if (currentUser) {
-      updateScore(currentUser, "loss");
-    }
-    resetGame();
-  }
-
   incorrectGuesses++;
+  if (incorrectGuesses <= maxMistakes[difficulty]) {
+    const part = document.getElementById(parts[incorrectGuesses - 1]);
+    if (part) part.style.display = "block";
+  }
+
+  if (incorrectGuesses >= maxMistakes[difficulty]) {
+    setTimeout(() => {
+      alert("Game Over!");
+
+      if (currentUser) {
+        updateScore(currentUser, "loss");
+      }
+      resetGame();
+    }, 100);
+  }
 };
 
 // Handle user letter guesses
-function handleGuess(letter) {
+function handleGuess(letter, button) {
   if (selectedWord.includes(letter)) {
     guessedLetters.add(letter);
     updateDisplay();
+
     setTimeout(() => {
       if (isWin()) {
-        alert("Congratulations! You won!");
+        alert("Congratulations!");
         updateScore(currentUser, "win");
         resetGame();
       }
@@ -45,6 +54,8 @@ function handleGuess(letter) {
   } else {
     updateHangman();
   }
+  button.disabled = true;
+  button.classList.add("used");
 }
 
 // Check if the user has guessed all letters correctly
@@ -69,11 +80,8 @@ async function resetGame() {
   document.querySelectorAll(".hangman-part").forEach((part) => {
     part.style.display = "none";
   });
-
   // Clear previous letter buttons
   createLetterButtons();
-
-  // Fetch a new word
   await fetchNewWord();
 }
 
@@ -106,16 +114,16 @@ function createLetterButtons() {
     let button = document.createElement("button");
     button.innerText = letter;
     button.classList.add("letter-button");
+    button.disabled = false;
+    button.classList.remove("used");
+
     button.onclick = () => {
-      handleGuess(letter);
-      button.disabled = true;
-      button.classList.add("used");
+      handleGuess(letter, button);
     };
 
     lettersContainer.appendChild(button);
   });
 }
-
 // Function to update wins, losses, and streaks
 function updateScore(username, result) {
   if (!username) return;
@@ -138,7 +146,6 @@ function updateScore(username, result) {
 
   displayScore(username);
 }
-
 // Function to display user score next to the gallows
 function displayScore(username) {
   if (!username) return;
@@ -149,33 +156,16 @@ function displayScore(username) {
   document.getElementById("wins-count").innerText = userData.wins;
   document.getElementById("streak-count").innerText = userData.streak;
 }
-
-// Function to handle user sign-up/login
-function handleSignUp(event) {
-  event.preventDefault();
-  const username = document.getElementById("new-username").value.trim();
-
-  if (!username) {
-    alert("Username cannot be empty.");
-    return;
-  }
-
-  saveUser(username);
-  localStorage.setItem("currentUser", username);
-  currentUser = username;
-  alert(`Welcome, ${username}!`);
-  displayScore(username);
-}
-
-// Save new user if they don't exist
-function saveUser(username) {
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-  if (!users[username]) {
-    users[username] = { wins: 0, losses: 0, streak: 0 };
-    localStorage.setItem("users", JSON.stringify(users));
-  }
-}
+document.querySelectorAll(".difficulty-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".difficulty-btn")
+      .forEach((b) => b.classList.remove("active"));
+    difficulty = btn.dataset.diff;
+    btn.classList.add("active");
+    resetGame();
+  });
+});
 
 // Function to get the user's score
 function getScore(username) {
