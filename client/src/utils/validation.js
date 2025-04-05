@@ -66,3 +66,7 @@ allInputs.forEach(input => {
       }
     })
   })
+
+  function goToHangman() {
+    window.location.href = '../hangman.html';
+  }
