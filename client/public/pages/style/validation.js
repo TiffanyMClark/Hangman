@@ -4,8 +4,8 @@ const pin = document.getElementById("pin");
 const confirmPin = document.getElementById("confirm-pin");
 
 form.addEventListener("submit", (e) => { 
-    e.preventDefault();
-    validateInputs();
+    //e.preventDefault();
+    //validateInputs();
 
     let errors = []
 
@@ -16,11 +16,11 @@ form.addEventListener("submit", (e) => {
     }
 
     if (errors.length > 0) {
-        error_message.innerText = errors.join(". ");
         e.preventDefault();
+        error_message.innerText = errors.join(". ");
     }
 }
-);
+)
 
 function getSignupFormErrors(username, pin, confirmPin) {
     let errors = [];
@@ -55,6 +55,9 @@ function getLoginFormErrors(pin) {
 
     return errors;
 }
+const allInputs = [username_input, pin_input, confirmPin_input]
+
+
 allInputs.forEach(input => {
     input.addEventListener('input', () => {
       if(input.parentElement.classList.contains('incorrect')){

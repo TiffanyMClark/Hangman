@@ -1,9 +1,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
-    --accent-color: #8672FF;
-    --base-color: #white;
-    --text-color: #2E2B41;
+    --accent-color: #D47E30;
+    --base-color: white;
+    --text-color: #673A3F;
     --input-color: #F3F0FF;
 }
 *{
@@ -12,11 +12,13 @@
 }
 html {
   font-family: 'Roboto', sans-serif;
+  font-size: 12pt;
   color: var(--text-color);
   text-align: center;
 }
 body {
     min-height : 100vh;
+    max-width: fit-content;
     background-image: url('../assets/bg_img.webp');
     background-size: cover;
     background-position: right;
@@ -26,7 +28,7 @@ body {
     box-sizing: border-box;
     background-color: var(--base-color);
     height: 100vh;
-    width: max(400px, 1600px);
+    width: max(40%, 600px);
     padding: 10px;
     border-radius: 0 20px 20px 0;
     flex-direction: column;
@@ -78,11 +80,11 @@ form input {
     transition: 150ms ease;
 }
 form input:hover {
-    border: 2px solid var(--accent-color);
+    border: var(--accent-color);
 }
 form input:focus {
     outline: none;
-    background-color: var(--text-color);
+    background-color: var(--accent-color);
 }
 div:has(input:focus) > label {
     background-color: var(--text-color);
