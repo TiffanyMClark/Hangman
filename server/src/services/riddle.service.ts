@@ -1,10 +1,19 @@
-import { API_KEY } from '../config/env';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const API_URL = 'https://api.api-ninjas.com/v1/riddles';
 
 export async function fetchRiddle() {
-  const response = await fetch('https://api.api-ninjas.com/v1/riddles', {
-    headers: { 'X-Api-Key': API_KEY },
+  const res = await fetch(API_URL, {
+    headers: {
+      'X-Api-Key': process.env.API_NINJAS_API_KEY || '',
+    },
   });
 
-  const data = await response.json();
-  return data[0]; // API returns array
+  if (!res.ok) {
+    throw new Error('Failed to fetch riddle');
+  }
+
+  return res.json();
 }
