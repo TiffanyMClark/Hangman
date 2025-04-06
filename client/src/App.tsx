@@ -1,12 +1,16 @@
-import { Outlet } from "react-router"
+import { Outlet } from "react-router-dom";
 
 function App() {
-
   return (
-    <main className="wrapper">
-    <Outlet />
-    </main>
-  )
+    <div>
+      <header>
+        <h1>Riddle Hangman</h1>
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
