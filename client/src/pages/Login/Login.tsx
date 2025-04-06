@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../index.css';
 
 interface User {
@@ -11,14 +11,17 @@ interface LoginProps {
   users: User[];
 }
 
-function Login({ users }: LoginProps) {
+function Login({ }: LoginProps) {
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
+  const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
   const handleLogin = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+
+    // Check if the user exists in local storage
+    const users = storedUsers || [];
 
     const userExists = users.some(
       (user: User) => user.username === username && user.pin === pin
@@ -87,8 +90,8 @@ function Login({ users }: LoginProps) {
         </button>
       </form>
 
-      <p>
-        New Here? <a href="./register.html">Create an Account</a>
+      <p id="account-message">
+        New Here? <a><Link to="/Register">Create an Account</Link></a>
       </p>
     </section>
   );
