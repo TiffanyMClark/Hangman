@@ -5,6 +5,8 @@ let guessedLetters = new Set();
 let usedLetters = new Set(); // Track used letters
 let difficulty = "normal";
 let shuffleInterval;
+const response = await fetch('/api/riddle');
+
 
 // Updates the Hangman figure
 const maxMistakes = {
@@ -94,20 +96,16 @@ async function resetGame() {
 // Fetch a new word (mock data for now)
 async function fetchNewWord() {
   try {
-    let mockData = [
-      {
-        riddle: "I speak without a mouth and hear without ears. What am I?",
-        answer: "echo",
-      },
-    ];
-
-    selectedWord = mockData[0].answer.toLowerCase();
-    document.getElementById("riddle-display").innerText = mockData[0].riddle;
+    const response = await fetch('/api/riddle');
+    const data = await response.json();
+    selectedWord = data.answer.toLowerCase();
+    document.getElementById("riddle-display").innerText = data.riddle;
     updateDisplay();
   } catch (error) {
     console.error("Error fetching word:", error);
   }
 }
+
 
 // Shuffle for hard mode?
 function shuffleArray(array) {
