@@ -1,17 +1,18 @@
-type WordDisplayProps = {
-  selectedWord: string;
+interface WordDisplayProps {
+  word: string;
   guessedLetters: Set<string>;
-};
+}
 
-const WordDisplay: React.FC<WordDisplayProps> = ({
-  selectedWord,
-  guessedLetters,
-}) => {
-  const displayWord = [...selectedWord]
+const WordDisplay = ({ word, guessedLetters }: WordDisplayProps) => {
+  const displayWord = [...word]
     .map((letter) => (guessedLetters.has(letter) ? letter : "_"))
     .join(" ");
 
-  return <h3 id="word-display">{displayWord}</h3>;
+  return (
+    <div className="word-display">
+      <h3>Word: {displayWord}</h3>
+    </div>
+  );
 };
 
 export default WordDisplay;
