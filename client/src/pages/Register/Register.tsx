@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import '../../index.css';
+import { useState } from "react";
+import "../../index.css";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   username: string;
@@ -9,16 +10,16 @@ interface User {
 const users: User[] = []; // Array to store user data
 
 function Register() {
-  const [username, setUsername] = useState('');
-  const [pin, setPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [pin, setPin] = useState("");
+  const [confirmPin, setConfirmPin] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const register = (event: React.FormEvent) => {
     event.preventDefault(); // Prevent form submission
 
     // Check if username is already taken
-    if (users.some(user => user.username === username)) {
+    if (users.some((user) => user.username === username)) {
       setErrorMessage("Username is already taken. Please choose another.");
       return;
     }
@@ -34,10 +35,10 @@ function Register() {
     alert("Registration successful!");
 
     // Clear input fields
-    setUsername('');
-    setPin('');
-    setConfirmPin('');
-    setErrorMessage(''); // Clear error message
+    setUsername("");
+    setPin("");
+    setConfirmPin("");
+    setErrorMessage(""); // Clear error message
   };
 
   return (
@@ -81,10 +82,12 @@ function Register() {
             required
           />
         </div>
-        <button id="register-button" type="submit">Register</button>
+        <button id="register-button" type="submit">
+          Register
+        </button>
       </form>
       <p>
-        Already have an account? 
+        Already have an account?
         <a href="./login.html">Login</a>
       </p>
     </div>

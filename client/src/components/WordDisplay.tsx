@@ -10,7 +10,7 @@ const WordDisplay = ({ word, guessedLetters }: WordDisplayProps) => {
 
   return (
     <div className="word-display">
-      <h3>Word: {displayWord}</h3>
+      <h3>{displayWord}</h3>
     </div>
   );
 };
