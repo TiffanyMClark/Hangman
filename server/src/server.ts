@@ -1,24 +1,7 @@
-import express from "express";
-import dotenv from "dotenv";
-import { getKeyword } from "./services/charadesService";
+import app from './app';
 
-
-dotenv.config();
-
-const app = express();
-app.use(express.json());
-
-const PORT = process.env.PORT || 5000;
-
-app.get("/hangman", async (_req, res) => {
-    try {
-        const word = await getKeyword();
-        res.json({keyword: word});
-        } catch (error) {
-            res.status(500).json({error: "Failed to fetch keyword"});
-        }
-});
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`); });
-
+  console.log(`Server running on port ${PORT}`);
+});
