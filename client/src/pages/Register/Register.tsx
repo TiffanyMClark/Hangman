@@ -104,8 +104,8 @@ function Register() {
         </button>
       </form>
       <p id="account-message">
-        Already have an account?
-        <a><Link to="/Login">Login</Link></a>
+        Already have an account?  
+        <a><Link to="/Login">  Login</Link></a>
       </p>
     </section>
   );

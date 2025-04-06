@@ -37,7 +37,6 @@ function Login({ }: LoginProps) {
   return (
     <section>
       <h1>Login</h1>
-      <p id="error-message">{errorMessage}</p>
       <form id="form" onSubmit={handleLogin}>
         <div>
           <label htmlFor="username">
@@ -90,7 +89,7 @@ function Login({ }: LoginProps) {
         </button>
       </form>
 
-      <p id="account-message">
+      <p>
         New Here? <a><Link to="/Register">Create an Account</Link></a>
       </p>
     </section>
