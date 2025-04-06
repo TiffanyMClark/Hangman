@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import HangmanBoard from "../../components/HangmanBoard.tsx";
 import HangmanCanvas from "../../components/HangmanCanvas.tsx";
 import LetterButtons from "../../components/LetterButtons.tsx";
-import RiddleDisplay from "../../components/RiddleDisplay.tsx"; // Import RiddleDisplay
+import RiddleDisplay from "../../components/RiddleDisplay.tsx";
 import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
+import DifficultyButtons from "../../components/DifficultyButtons";
 
 function Hangman() {
-  // State for the game (difficulty, guessed letters, etc.)
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
     "normal"
   );
@@ -16,48 +16,49 @@ function Hangman() {
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
   const [usedLetters, setUsedLetters] = useState<Set<string>>(new Set());
   const [selectedWord, setSelectedWord] = useState<string>("");
-  const [riddle, setRiddle] = useState<string>(""); // New state for riddle
+  const [riddle, setRiddle] = useState<string>("");
+  const [gameOver, setGameOver] = useState(false);
 
-  // Max mistakes based on difficulty
   const maxMistakes = {
     easy: 8,
     normal: 6,
     hard: 4,
   };
 
-  // Fetch a new word and riddle from the server
   const fetchNewWord = async () => {
-    try {
-      const response = await fetch("/api/riddle");
-      const data = await response.json();
-      setSelectedWord(data.answer.toLowerCase()); // Set the word
-      setRiddle(data.riddle); // Set the riddle
-    } catch (error) {
-      console.error("Error fetching word:", error);
-    }
+    // Simulate fetching a riddle
+    const mockRiddle = {
+      question: "What has keys but can't open locks?",
+      answer: "piano",
+    };
+
+    setSelectedWord(mockRiddle.answer.toLowerCase());
+    setRiddle(mockRiddle.question);
   };
 
-  // Reset the game state
   const resetGame = async () => {
     setIncorrectGuesses(0);
     setGuessedLetters(new Set());
     setUsedLetters(new Set());
+    setGameOver(false); // Reset game over state
     await fetchNewWord();
   };
 
-  // Change the difficulty level
   const changeDifficulty = (newDifficulty: "easy" | "normal" | "hard") => {
     setDifficulty(newDifficulty);
     resetGame();
   };
 
-  // Check if the user has won
   const isWin = () => {
     return [...selectedWord].every((letter) => guessedLetters.has(letter));
   };
 
-  // Handle letter guesses
   const handleGuess = (letter: string, button: HTMLButtonElement) => {
+    if (incorrectGuesses >= maxMistakes[difficulty]) {
+      setGameOver(true);
+      return;
+    }
+
     if (selectedWord.includes(letter)) {
       setGuessedLetters((prev) => new Set(prev.add(letter)));
     } else {
@@ -69,12 +70,10 @@ function Hangman() {
     setUsedLetters((prev) => new Set(prev.add(letter)));
 
     if (isWin()) {
-      alert("Congratulations! You Win!");
-      resetGame();
+      setGameOver(true);
     }
   };
 
-  // Fetch a new word and riddle on component mount
   useEffect(() => {
     fetchNewWord();
   }, []);
@@ -83,34 +82,58 @@ function Hangman() {
     <section className="game-container">
       {/* Difficulty Buttons */}
       <div className="difficulty-buttons">
-        <button onClick={() => changeDifficulty("easy")}>Easy</button>
-        <button onClick={() => changeDifficulty("normal")}>Normal</button>
-        <button onClick={() => changeDifficulty("hard")}>Hard</button>
+        <DifficultyButtons changeDifficulty={changeDifficulty} />
       </div>
-      {/* Display the riddle */}
-      <RiddleDisplay riddle={riddle} />{" "}
-      {/* This will show the riddle on the screen */}
-      {/* Letter Buttons */}
-      <LetterButtons
-        usedLetters={usedLetters}
-        handleGuess={handleGuess}
-        difficulty={difficulty}
-      />
-      {/* Score Display */}
-      <Score incorrectGuesses={incorrectGuesses} />
-      {/* Hangman Canvas */}
-      <HangmanCanvas
-        incorrectGuesses={incorrectGuesses}
-        difficulty={difficulty}
-      />
-      {/* Hangman Board */}
-      <HangmanBoard
-        incorrectGuesses={incorrectGuesses}
-        maxMistakes={maxMistakes[difficulty]}
-        difficulty={difficulty}
-      />
+
+      {/* Riddle Display */}
+      <div className="riddle-display">
+        <RiddleDisplay riddle={riddle} />
+      </div>
+
       {/* Word Display */}
-      <WordDisplay word={selectedWord} guessedLetters={guessedLetters} />
+      <div className="word-display">
+        <WordDisplay word={selectedWord} guessedLetters={guessedLetters} />
+      </div>
+
+      {/* Keyboard Container */}
+      <div className="keyboard-container">
+        <LetterButtons
+          usedLetters={usedLetters}
+          handleGuess={handleGuess}
+          difficulty={difficulty}
+        />
+      </div>
+
+      {/* Score */}
+      <div className="score-container">
+        <Score incorrectGuesses={incorrectGuesses} />
+      </div>
+
+      {/* Hangman Canvas */}
+      <div className="hangman-container">
+        <HangmanCanvas
+          incorrectGuesses={incorrectGuesses}
+          difficulty={difficulty}
+        />
+      </div>
+
+      {/* Hangman Board */}
+      <div className="hangman-board-container">
+        <HangmanBoard
+          incorrectGuesses={incorrectGuesses}
+          maxMistakes={maxMistakes[difficulty]}
+          difficulty={difficulty}
+        />
+      </div>
+
+      {/* Game Over Message */}
+      {gameOver && (
+        <div className="game-over">
+          {incorrectGuesses >= maxMistakes[difficulty]
+            ? "Game Over! The word was: " + selectedWord
+            : "Congratulations!"}
+        </div>
+      )}
     </section>
   );
 }

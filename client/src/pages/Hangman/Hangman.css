@@ -1,141 +1,140 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 80vh;
-    background-image: url("/bg_img.webp");
-    background-size: fill;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 80vh;
+  background-image: url("/bg_img.webp");
+  background-size: fill;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .game-container {
-    text-align: center;
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    margin-top: 30px;
-  }
-  
-  /* Game Header */
-  .game-header {
-    font-size: 3rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: rgba(0, 191, 255, 0.192);
-    border-radius: 5px;
-    color: white;
-  }
-  
-  /* Riddle Display */
-  .riddle-display {
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 20px;
-    padding: 0 10px;
-    background-color: rgba(0, 191, 255, 0.192);
-    border-radius: 5px;
-    color: white;
-  }
-  
-  /* Word Display (under riddle) */
-  .word-display {
-    font-size: 3rem;
-    letter-spacing: 10px;
-    background-color: rgba(0, 191, 255, 0.192);
-    border-radius: 5px;
-  }
-  
-  /* Letter Box Container */
-  .letters-container {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 8px;
-    width: 250px;
-    position: absolute;
-    left: 20px;
-    top: 150%;
-    transform: translateY(-50%);
-    z-index: 10;
-  }
-  /* Button Styles */
-  .letter-button {
-    background-color: lightblue;
-    border: none;
-    padding: 15px;
-    font-size: 15px;
-    cursor: pointer;
-    text-transform: uppercase;
-    border-radius: 12px; /* round buttons */
-    transition: all 0.3s ease; /* Smooth transition for hover effect */
-  }
-  
-  .letter-button:hover {
-    background-color: deepskyblue; /* Change background color on hover */
-    transform: scale(1.1); /* bigger-ish button  */
-  }
-  
-  .letter-button.used {
-    background-color: gray;
-    text-decoration: line-through;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-  #hangman-container {
-    position: absolute;
-    bottom: 10%; /* Adjust positioning */
-    right: 5%;
-    width: 200px;
-    height: 250px;
-    background-color: rgba(0, 191, 255, 0.163);
-    border-radius: 5px;
-  }
-  .score-container {
-    position: absolute;
-    bottom: 1%;
-    right: 5%;
-    background-color: rgba(0, 191, 255, 0.163);
-    border-radius: 2px;
-  }
-  .difficulty-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    width: 250px;
-    position: absolute;
-    left: 20px;
-    top: 120px;
-    transform: translateY(-50%);
-    z-index: 10;
-  }
-  
-  .difficulty-btn {
-    background-color: lightblue;
-    border: none;
-    padding: 15px;
-    font-size: 15px;
-    cursor: pointer;
-    text-transform: uppercase;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-  
-  .difficulty-btn:hover {
-    background-color: deepskyblue;
-    transform: scale(1.1);
-  }
-  
-  .difficulty-btn.active {
-    background-color: #090ce2;
-    color: white;
-  }
-  
+  text-align: center;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Game Header */
+.game-header {
+  font-size: 3rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
+  color: white;
+}
+
+/* Riddle Display */
+.riddle-display {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
+  color: white;
+}
+
+/* Word Display (under riddle) */
+.word-display {
+  font-size: 3rem;
+  letter-spacing: 10px;
+  background-color: rgba(0, 191, 255, 0.192);
+  border-radius: 5px;
+}
+
+/* Letter Box Container */
+.letters-container {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 8px;
+  width: 250px;
+  position: absolute;
+  left: 20px;
+  top: 150%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+/* Button Styles */
+.letter-button {
+  background-color: lightblue;
+  border: none;
+  padding: 15px;
+  font-size: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 12px; /* round buttons */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.letter-button:hover {
+  background-color: deepskyblue; /* Change background color on hover */
+  transform: scale(1.1); /* bigger-ish button  */
+}
+
+.letter-button.used {
+  background-color: gray;
+  text-decoration: line-through;
+  pointer-events: none;
+  opacity: 0.5;
+}
+#hangman-container {
+  position: absolute;
+  bottom: 10%; /* Adjust positioning */
+  right: 5%;
+  width: 200px;
+  height: 250px;
+  background-color: rgba(0, 191, 255, 0.163);
+  border-radius: 5px;
+}
+.score-container {
+  position: absolute;
+  bottom: 1%;
+  right: 5%;
+  background-color: rgba(0, 191, 255, 0.163);
+  border-radius: 2px;
+}
+.difficulty-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 250px;
+  position: absolute;
+  left: 20px;
+  top: 120px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.difficulty-btn {
+  background-color: lightblue;
+  border: none;
+  padding: 15px;
+  font-size: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.difficulty-btn:hover {
+  background-color: deepskyblue;
+  transform: scale(1.1);
+}
+
+.difficulty-btn.active {
+  background-color: #090ce2;
+  color: white;
+}
