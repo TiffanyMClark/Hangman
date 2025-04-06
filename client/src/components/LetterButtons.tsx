@@ -1,17 +1,31 @@
-function LetterButtons () {
-    return (
-        <>
-            <h1 className="game-header">Riddle Hangman</h1>
-            <div id="riddle-display" className="riddle-display">Loading riddle...</div>
-            {/* <!-- Smaller Riddle Text --> */}
+import React from "react";
 
-            <div id="word-display" className="word-display">_ _ _ _</div>
-            {/* <!-- Large Word Display --> */}
-
-            <div id="letters-container" className="letters-container"></div>
-            {/* <!-- Letter Selection --> */}
-        </>
-    );
+interface LetterButtonsProps {
+  usedLetters: Set<string>;
+  handleGuess: (letter: string, button: HTMLButtonElement) => void;
+  difficulty: string;
 }
+
+const LetterButtons: React.FC<LetterButtonsProps> = ({
+  usedLetters,
+  handleGuess,
+  difficulty,
+}) => {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+  return (
+    <div id="letters-container">
+      {alphabet.map((letter) => (
+        <button
+          key={letter}
+          onClick={(e) => handleGuess(letter, e.currentTarget)}
+          disabled={usedLetters.has(letter)}
+        >
+          {letter}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 export default LetterButtons;
