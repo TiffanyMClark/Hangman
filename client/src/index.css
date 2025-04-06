@@ -34,10 +34,22 @@ body {
     align-items: center;
     justify-content: center;
 }
+li {
+    color: var(--text-color);
+}
+p {
+    text-align: center;
+}
 h1 {
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: var(--input-color);
+}
+.account-message {
+    -webkit-text-stroke-width: .5px;
+    -webkit-text-stroke-color: var(--text-color);
 }
 form{
     width: min(400px, 100%);
