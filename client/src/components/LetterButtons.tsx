@@ -3,7 +3,7 @@ import React from "react";
 interface LetterButtonsProps {
   usedLetters: Set<string>;
   handleGuess: (letter: string, button: HTMLButtonElement) => void;
-  difficulty: string; // Keep the difficulty prop
+  difficulty: "easy" | "normal" | "hard";
 }
 
 const LetterButtons: React.FC<LetterButtonsProps> = ({
