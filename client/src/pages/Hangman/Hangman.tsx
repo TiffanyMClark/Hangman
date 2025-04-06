@@ -95,8 +95,8 @@ function Hangman() {
         <WordDisplay word={selectedWord} guessedLetters={guessedLetters} />
       </div>
 
-      {/* Keyboard Container */}
-      <div className="keyboard-container">
+      {/* Letter Buttons */}
+      <div className="letter-buttons">
         <LetterButtons
           usedLetters={usedLetters}
           handleGuess={handleGuess}
