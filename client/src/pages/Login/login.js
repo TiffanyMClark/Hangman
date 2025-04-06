@@ -67,3 +67,8 @@ document.getElementById("forgot-pin-button").addEventListener("click", function(
   alert("Your PIN is your birth year.");
 });
 
+// Add event listener for go to login button
+document.getElementById("goToHangman").addEventListener("click", function() {
+  window.location.href = "./pages/Hangman.tsx"; // Redirect to login page
+});
+

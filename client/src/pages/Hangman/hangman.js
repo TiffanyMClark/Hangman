@@ -1,3 +1,5 @@
+// TO DO: MOVE TO TSX
+
 let incorrectGuesses = 0;
 let currentUser = localStorage.getItem("currentUser") || null;
 let selectedWord = "";
