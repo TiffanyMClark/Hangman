@@ -1,9 +1,13 @@
-type RiddleDisplayProps = {
+interface RiddleDisplayProps {
   riddle: string;
-};
+}
 
-const RiddleDisplay: React.FC<RiddleDisplayProps> = ({ riddle }) => {
-  return <h2 id="riddle-display">{riddle}</h2>;
+const RiddleDisplay = ({ riddle }: RiddleDisplayProps) => {
+  return (
+    <div className="riddle-display">
+      <h2>Riddle: {riddle}</h2>
+    </div>
+  );
 };
 
 export default RiddleDisplay;

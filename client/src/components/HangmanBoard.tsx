@@ -1,15 +1,16 @@
 import React from "react";
 
-function HangmanBoard({
+type HangmanBoardProps = {
+  incorrectGuesses: number;
+  maxMistakes: number;
+  difficulty: "easy" | "normal" | "hard";
+};
+
+const HangmanBoard: React.FC<HangmanBoardProps> = ({
   incorrectGuesses,
   maxMistakes,
   difficulty,
-}: {
-  incorrectGuesses: number;
-  maxMistakes: Record<string, number>;
-  difficulty: string;
-}) {
-  // SVG Hangman board structure
+}) => {
   return (
     <div id="hangman-container">
       <svg id="hangman-svg" width="200" height="250" viewBox="0 0 200 250">
@@ -38,8 +39,6 @@ function HangmanBoard({
         {/* Hanging rope: Invisible, but visually it represents where the rope would be. */}
 
         {/* Hangman Parts (Head, Body, Arms, Legs) */}
-        {/* Initially hidden and will be displayed one by one based on incorrect guesses */}
-
         {/* Head: Appears when a certain number of incorrect guesses are made */}
         <circle
           id="head"
@@ -52,6 +51,7 @@ function HangmanBoard({
           fill="none"
           style={{ display: incorrectGuesses >= 1 ? "block" : "none" }} // Show head on first wrong guess
         />
+
         {/* Body: Appears after head */}
         <line
           id="body"
@@ -64,6 +64,7 @@ function HangmanBoard({
           strokeWidth="3"
           style={{ display: incorrectGuesses >= 2 ? "block" : "none" }} // Show body after second wrong guess
         />
+
         {/* Left Arm: Appears after body */}
         <line
           id="left-arm"
@@ -76,6 +77,7 @@ function HangmanBoard({
           strokeWidth="3"
           style={{ display: incorrectGuesses >= 3 ? "block" : "none" }} // Show left arm on third wrong guess
         />
+
         {/* Right Arm: Appears after left arm */}
         <line
           id="right-arm"
@@ -88,6 +90,7 @@ function HangmanBoard({
           strokeWidth="3"
           style={{ display: incorrectGuesses >= 4 ? "block" : "none" }} // Show right arm on fourth wrong guess
         />
+
         {/* Left Leg: Appears after right arm */}
         <line
           id="left-leg"
@@ -100,6 +103,7 @@ function HangmanBoard({
           strokeWidth="3"
           style={{ display: incorrectGuesses >= 5 ? "block" : "none" }} // Show left leg on fifth wrong guess
         />
+
         {/* Right Leg: Appears after left leg */}
         <line
           id="right-leg"
@@ -115,6 +119,6 @@ function HangmanBoard({
       </svg>
     </div>
   );
-}
+};
 
 export default HangmanBoard;
