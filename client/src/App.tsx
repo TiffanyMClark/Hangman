@@ -7,9 +7,10 @@ function App() {
       <header>
         <h1 className="app-title">Riddle Hangman</h1>
         <nav className="navbar">
-          <Link to="/hangman" className="nav-link">Play Hangman</Link>
-          <Link to="/register" className="nav-link">Register</Link>
-          <Link to="/login" className="nav-link">Login</Link>
+        <Link to="/register" className="nav-link">Register</Link>
+        <Link to="/login" className="nav-link">Login</Link>
+        <Link to="/hangman" className="nav-link">Play Hangman</Link>        
+          
         </nav>
       </header>
       <main className="main-content">
