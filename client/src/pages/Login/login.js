@@ -2,6 +2,14 @@
 const users = []; // Array to store user data
 const pins = []; // Array to store PINs
 
+// const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
+// const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY)) || []; // Array to store registered players
+
+// const activeUser = {
+//   username: "",
+//   pin: ""
+// }
+
 function register() {
   const username = document.getElementById("username").value;
   const pin = document.getElementById("pin").value;
@@ -11,7 +19,8 @@ function register() {
    if (users.some(user => user.username === username)) {
     alert("Username is already taken. Please choose another.");
     return;
-}
+  }
+
 
 // Check if pins match
 if (pin !== confirmPin) {
@@ -20,13 +29,17 @@ if (pin !== confirmPin) {
 }
 
 // Register the user
+// storeUserData(username, pin);
 users.push({ username, pin });
+
 alert("Registration successful!");
 
 // Clear input fields
 document.getElementById("username").value = "";
 document.getElementById("pin").value = "";
 document.getElementById("confirm-pin").value = "";
+// more testing
+console.log("Registered users:", users);
 }
 
 function login() {
@@ -36,7 +49,7 @@ function login() {
   // Check if username and pin are correct
   if (username === "username" && pin === "pin") {
     // Redirect to hangman.html
-    window.location.href = "../pages/hangman.html";
+    window.location.href = "../pages/hangman.html"; //call loadSaveState(), to be written
   } else {
     alert("Invalid username or pin. Please try again.");
   }

@@ -3,6 +3,18 @@ import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 
 
+const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
+const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY) || "[]"); // Array to store registered players
+
+function storeUserData(username: string, pin: string) 
+{
+  const newUser = { username, pin };
+  registerdPlayers.push(newUser);  
+  localStorage.setItem(REGISTERD_PLAYERS_KEY, JSON.stringify(registerdPlayers));
+  console.log("User data stored in local storage:", registerdPlayers);
+  // You can also store the data in a database or send it to a server here
+}
+
 function Register() {
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState("");
@@ -20,7 +32,10 @@ function Register() {
 
     // Register the user
     users.push({ username, pin });
+    //TESTING !!!!
+    storeUserData(username, pin); // Store user data in local storage
     alert("Registration successful!");
+    
     navigate("/hangman"); // Redirect to the hangman page
 
     // Clear input fields
@@ -105,7 +120,8 @@ function Register() {
       </form>
       <p id="account-message">
         Already have an account?  
-        <a><Link to="/Login">  Login</Link></a>
+        <Link to="/Login">Login</Link> {/* testing */}
+      {/*<a><Link to="/Login">  Login</Link></a>*/}
       </p>
     </section>
   );
