@@ -64,6 +64,7 @@ header {
 
 .riddle-display {
   font-size: 1.8rem;
+  margin-top: 20px;
   margin-bottom: 10px;
   -webkit-text-stroke: 2px #000000;
   color: #d47e30; /* Make the text transparent */
@@ -81,25 +82,27 @@ header {
   font-size: 2.5rem;
   letter-spacing: 0.1rem;
   font-weight: bold;
-  color: #d47e30(0 0% 100%);
+  color: #d47e30;
+  margin-top: 20px;
   -webkit-text-stroke: 2px #000000;
 }
 
+/* Letter buttons - Grouped section */
 .letter-buttons {
   position: absolute;
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* Adjust for small screens */
   gap: 10px;
   padding: 15px;
-
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   max-height: 90vh;
-  overflow: hidden;
+  overflow: auto; /* Allow scrolling if needed */
   z-index: 1;
+  width: 90%; /* Ensure it uses most of the screen width */
 }
 
 .letter-buttons button {
@@ -122,13 +125,15 @@ header {
   color: hsl(0, 0%, 0%);
   text-decoration: line-through;
 }
+
 .letter-buttons button:hover {
   background-color: #b36c27;
-  color: white;
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 }
+
+/* Difficulty buttons */
 .difficulty-buttons {
   display: flex;
   justify-content: flex-start;
@@ -145,12 +150,15 @@ header {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .difficulty-buttons button:hover {
   background-color: #b36c27;
   color: #fff;
   transform: scale(1.05);
   transition: all 0.3s ease;
 }
+
+/* Score container */
 .score-container {
   position: absolute;
   top: 20px;
@@ -158,11 +166,16 @@ header {
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  background-color: #d47e30;
-  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+.score-container span {
+  display: block;
+  margin-bottom: 5px;
+  color: #d47e30;
+}
+
+/* Hangman board container */
 .hangman-board-container {
   width: 200px;
   height: 100px;
@@ -209,10 +222,44 @@ header {
   .hangman-board-container {
     grid-column: 1 / 2;
   }
+
+  /* Letter buttons responsive adjustments */
+  .letter-buttons {
+    grid-template-columns: repeat(
+      4,
+      1fr
+    ); /* Increase columns for smaller screens */
+    width: 100%; /* Let it stretch across the screen */
+    left: 0;
+    padding: 10px;
+  }
+
+  .letter-buttons button {
+    font-size: 1rem; /* Adjust for smaller screens */
+    width: 40px;
+    height: 40px;
+  }
 }
-/* Style for the play-again button to match letter buttons */
+
+@media screen and (max-width: 480px) {
+  /* Letter buttons on very small screens */
+  .letter-buttons {
+    grid-template-columns: repeat(
+      5,
+      1fr
+    ); /* Adjust even more for very small screens */
+    width: 100%;
+  }
+
+  .letter-buttons button {
+    font-size: 0.9rem;
+    width: 35px;
+    height: 35px;
+  }
+}
+
 .play-again-button {
-  width: 150px; /* Adjust size as needed */
+  width: 150px;
   height: 50px;
   font-size: 1.2rem;
   font-weight: bold;
@@ -221,11 +268,11 @@ header {
   border: 1px solid #ccc;
   background-color: #d47e30;
   border-radius: 8px;
-  color: white;
+  color: rgb(255, 255, 255);
   transition: background-color 0.2s ease;
-  margin-top: 20px; /* Space between message and button */
+  margin-top: 20px;
 }
 
 .play-again-button:hover {
-  background-color: #b36c27; /* Slightly darker shade of orange */
+  background-color: #b36c27;
 }

@@ -61,7 +61,7 @@ function Hangman() {
     }
     if (incorrectGuesses >= maxMistakes[difficulty]) {
       setGameOver(true);
-      setStreak(0); // Reset streak if the game is lost
+      setStreak(0); // Reset streak if lose
       return;
     }
 
@@ -150,7 +150,6 @@ function Hangman() {
       <div className="hangman-board-container">
         <HangmanBoard
           incorrectGuesses={incorrectGuesses}
-          maxMistakes={maxMistakes[difficulty]}
           difficulty={difficulty}
         />
       </div>
