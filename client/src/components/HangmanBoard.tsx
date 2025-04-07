@@ -2,19 +2,25 @@ import React from "react";
 
 type HangmanBoardProps = {
   incorrectGuesses: number;
-  maxMistakes: number;
   difficulty: "easy" | "normal" | "hard";
 };
 
 const HangmanBoard: React.FC<HangmanBoardProps> = ({
   incorrectGuesses,
-  maxMistakes,
   difficulty,
 }) => {
+  const maxMistakes = {
+    easy: 6,
+    normal: 5,
+    hard: 4,
+  };
+
+  const currentMaxMistakes = maxMistakes[difficulty]; // Set maxMistakes based on difficulty
+
   return (
     <div id="hangman-container">
       <svg id="hangman-svg" width="200" height="250" viewBox="0 0 200 250">
-        {/* Gallows bottom bar: The base of the gallows */}
+        {/* Gallows bottom bar */}
         <line
           x1="20"
           y1="220"
@@ -23,11 +29,11 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           stroke="black"
           strokeWidth="5"
         />
-        {/* Tall bar: The vertical bar supporting the crossbar */}
+        {/* Tall vertical bar */}
         <line x1="60" y1="220" x2="60" y2="20" stroke="black" strokeWidth="5" />
-        {/* Top short bar: The crossbar where the rope hangs from */}
+        {/* Crossbar */}
         <line x1="60" y1="20" x2="140" y2="20" stroke="black" strokeWidth="5" />
-        {/* Drop down bar for the hanging part: The vertical bar for the rope */}
+        {/* Drop down bar for rope */}
         <line
           x1="140"
           y1="20"
@@ -36,10 +42,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           stroke="black"
           strokeWidth="5"
         />
-        {/* Hanging rope: Invisible, but visually it represents where the rope would be. */}
 
-        {/* Hangman Parts (Head, Body, Arms, Legs) */}
-        {/* Head: Appears when a certain number of incorrect guesses are made */}
+        {/* Hangman Parts */}
         <circle
           id="head"
           className="hangman-part"
@@ -49,10 +53,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           stroke="black"
           strokeWidth="3"
           fill="none"
-          style={{ display: incorrectGuesses >= 1 ? "block" : "none" }} // Show head on first wrong guess
+          style={{ display: incorrectGuesses >= 1 ? "block" : "none" }} // Head on 1st wrong guess
         />
-
-        {/* Body: Appears after head */}
         <line
           id="body"
           className="hangman-part"
@@ -62,10 +64,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           y2="150"
           stroke="black"
           strokeWidth="3"
-          style={{ display: incorrectGuesses >= 2 ? "block" : "none" }} // Show body after second wrong guess
+          style={{ display: incorrectGuesses >= 2 ? "block" : "none" }} // Body on 2nd wrong guess
         />
-
-        {/* Left Arm: Appears after body */}
         <line
           id="left-arm"
           className="hangman-part"
@@ -75,10 +75,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           y2="130"
           stroke="black"
           strokeWidth="3"
-          style={{ display: incorrectGuesses >= 3 ? "block" : "none" }} // Show left arm on third wrong guess
+          style={{ display: incorrectGuesses >= 3 ? "block" : "none" }} // Left arm on 3rd wrong guess
         />
-
-        {/* Right Arm: Appears after left arm */}
         <line
           id="right-arm"
           className="hangman-part"
@@ -88,10 +86,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           y2="130"
           stroke="black"
           strokeWidth="3"
-          style={{ display: incorrectGuesses >= 4 ? "block" : "none" }} // Show right arm on fourth wrong guess
+          style={{ display: incorrectGuesses >= 4 ? "block" : "none" }} // Right arm on 4th wrong guess
         />
-
-        {/* Left Leg: Appears after right arm */}
         <line
           id="left-leg"
           className="hangman-part"
@@ -101,10 +97,8 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           y2="190"
           stroke="black"
           strokeWidth="3"
-          style={{ display: incorrectGuesses >= 5 ? "block" : "none" }} // Show left leg on fifth wrong guess
+          style={{ display: incorrectGuesses >= 5 ? "block" : "none" }} // Left leg on 5th wrong guess
         />
-
-        {/* Right Leg: Appears after left leg */}
         <line
           id="right-leg"
           className="hangman-part"
@@ -114,7 +108,7 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           y2="190"
           stroke="black"
           strokeWidth="3"
-          style={{ display: incorrectGuesses >= 6 ? "block" : "none" }} // Show right leg on sixth wrong guess
+          style={{ display: incorrectGuesses >= 6 ? "block" : "none" }} // Right leg on 6th wrong guess
         />
       </svg>
     </div>
