@@ -18,6 +18,8 @@ function Hangman() {
   const [selectedWord, setSelectedWord] = useState<string>("");
   const [riddle, setRiddle] = useState<string>("");
   const [gameOver, setGameOver] = useState(false);
+  const [wins, setWins] = useState(0); // Track number of wins
+  const [streak, setStreak] = useState(0); // Track winning streak
 
   const maxMistakes = {
     easy: 8,
@@ -54,8 +56,12 @@ function Hangman() {
   };
 
   const handleGuess = (letter: string, button: HTMLButtonElement) => {
+    if (gameOver) {
+      return; // Don't allow guesses if the game is over
+    }
     if (incorrectGuesses >= maxMistakes[difficulty]) {
       setGameOver(true);
+      setStreak(0); // Reset streak if the game is lost
       return;
     }
 
@@ -71,12 +77,28 @@ function Hangman() {
 
     if (isWin()) {
       setGameOver(true);
+      setWins(wins + 1); // Increment wins when the player wins
+      setStreak(streak + 1); // Increment streak for a win
     }
   };
 
   useEffect(() => {
     fetchNewWord();
   }, []);
+
+  useEffect(() => {
+    if (
+      selectedWord &&
+      [...selectedWord].every((letter) => guessedLetters.has(letter))
+    ) {
+      setGameOver(true);
+      setWins(wins + 1); // Increment wins if player wins
+      setStreak(streak + 1); // Increment streak
+    } else if (incorrectGuesses >= maxMistakes[difficulty]) {
+      setGameOver(true);
+      setStreak(0); // Reset streak if game is lost
+    }
+  }, [guessedLetters, incorrectGuesses, selectedWord, difficulty]);
 
   return (
     <section className="game-container">
@@ -101,12 +123,19 @@ function Hangman() {
           usedLetters={usedLetters}
           handleGuess={handleGuess}
           difficulty={difficulty}
+          gameOver={gameOver} // Pass gameOver prop
         />
       </div>
 
-      {/* Score */}
+      {/* Score Display */}
       <div className="score-container">
-        <Score incorrectGuesses={incorrectGuesses} />
+        <Score
+          incorrectGuesses={incorrectGuesses}
+          maxMistakes={maxMistakes[difficulty]}
+          wins={wins}
+          streak={streak}
+          guessesLeft={maxMistakes[difficulty] - incorrectGuesses}
+        />
       </div>
 
       {/* Hangman Canvas */}
@@ -126,12 +155,17 @@ function Hangman() {
         />
       </div>
 
-      {/* Game Over Message */}
+      {/* Game Over Message with Play Again Button */}
       {gameOver && (
         <div className="game-over">
-          {incorrectGuesses >= maxMistakes[difficulty]
-            ? "Game Over! The word was: " + selectedWord
-            : "Congratulations!"}
+          <p>
+            {incorrectGuesses >= maxMistakes[difficulty]
+              ? `Game Over! The word was: ${selectedWord}`
+              : "Congratulations!"}
+          </p>
+          <button onClick={resetGame} className="play-again-button">
+            Play Again
+          </button>
         </div>
       )}
     </section>
