@@ -19,6 +19,7 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
 
   return (
     <div id="hangman-container">
+      <h2>Difficulty: {difficulty}</h2>
       <svg id="hangman-svg" width="200" height="250" viewBox="0 0 200 250">
         {/* Gallows bottom bar */}
         <line
@@ -111,6 +112,7 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
           style={{ display: incorrectGuesses >= 6 ? "block" : "none" }} // Right leg on 6th wrong guess
         />
       </svg>
+      <h3>Max Mistakes: {currentMaxMistakes}</h3>
     </div>
   );
 };
