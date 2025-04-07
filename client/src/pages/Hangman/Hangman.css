@@ -6,10 +6,11 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* centers horizontally */
+  align-items: flex-start; /* top-aligns the game */
   background: url("../../../public/bg_img.webp") no-repeat center center fixed;
   background-size: cover;
+  position: relative;
 }
 
 /* Apply an overlay with opacity for the background image */
@@ -24,19 +25,30 @@ body::before {
   z-index: -1; /* Put the overlay behind the content */
 }
 
+/* Apply full screen to the game container but position it behind the header */
 .game-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  min-height: 100vh;
+  width: 100%; /* Full width of the screen */
+  height: 100vh; /* Full height of the viewport */
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent background */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: fixed; /* Position the container fixed to the viewport */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Ensure it stays behind other content like the header */
+  overflow: hidden; /* Prevent overflow beyond screen */
+}
+
+/* Ensure the header stays on top */
+header {
   position: relative;
+  z-index: 10; /* Keeps the header above the game container */
 }
 
 /* Riddle display and Word display */
@@ -47,39 +59,81 @@ body::before {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  outline: 2px bold #000000;
 }
 
 .riddle-display {
   font-size: 1.8rem;
   margin-bottom: 10px;
-  color: hsl(0, 0%, 0%);
+  -webkit-text-stroke: 2px #000000;
+  color: #d47e30; /* Make the text transparent */
+  padding: 10px;
+  background-color: transparent;
+}
+
+.riddle-display span {
+  font-weight: bold;
+  -webkit-text-stroke: 2px #000000;
+  color: #d47e30;
 }
 
 .word-display {
   font-size: 2.5rem;
   letter-spacing: 0.1rem;
   font-weight: bold;
-  color: #000000;
+  color: #d47e30(0 0% 100%);
+  -webkit-text-stroke: 2px #000000;
 }
 
-.letter-button {
-  width: 40px;
-  height: 40px;
-  margin: 5px;
+.letter-buttons {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 15px;
+
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.letter-buttons button {
+  width: 50px;
+  height: 50px;
   font-size: 1.2rem;
+  font-weight: bold;
   text-align: center;
   cursor: pointer;
   border: 1px solid #ccc;
   background-color: #d47e30;
-  border-radius: 5px;
+  border-radius: 8px;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 
-/* Difficulty buttons styling (left side) */
+.letter-buttons button.used {
+  background-color: rgba(212, 127, 48, 0.608);
+  cursor: not-allowed;
+  color: hsl(0, 0%, 0%);
+  text-decoration: line-through;
+}
+.letter-buttons button:hover {
+  background-color: #b36c27;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
 .difficulty-buttons {
-  grid-column: 1 / 2; /* Place difficulty buttons on the left */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .difficulty-buttons button {
@@ -91,49 +145,49 @@ body::before {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
-/* Score container */
+.difficulty-buttons button:hover {
+  background-color: #b36c27;
+  color: #fff;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
 .score-container {
-  grid-column: 2 / 3; /* Center the score in the middle */
+  position: absolute;
+  top: 20px;
+  right: 20px;
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-}
-
-/* Hangman canvas and board */
-.hangman-container,
-.hangman-board-container {
-  grid-column: 3 / 4; /* Place hangman-related elements on the right */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.hangman-container {
-  position: absolute;
-  bottom: 10%;
-  right: 5%;
-  width: 200px;
-  height: 250px;
+  background-color: #d47e30;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .hangman-board-container {
   width: 200px;
   height: 100px;
   margin-top: 10px;
+  position: absolute;
+  bottom: 20%;
+  right: 5%;
+  width: 200px;
+  height: 250px;
 }
 
 /* Game Over message */
 .game-over {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 2rem;
   color: #fff;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 20px 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  z-index: 1000; /* Bring it in front of everything else */
+  text-align: center;
 }
 
 /* Add responsiveness for smaller screens */
@@ -155,4 +209,23 @@ body::before {
   .hangman-board-container {
     grid-column: 1 / 2;
   }
+}
+/* Style for the play-again button to match letter buttons */
+.play-again-button {
+  width: 150px; /* Adjust size as needed */
+  height: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #d47e30;
+  border-radius: 8px;
+  color: white;
+  transition: background-color 0.2s ease;
+  margin-top: 20px; /* Space between message and button */
+}
+
+.play-again-button:hover {
+  background-color: #b36c27; /* Slightly darker shade of orange */
 }
