@@ -157,7 +157,7 @@ function Hangman() {
       {/* Game Over Message with Play Again Button */}
       {gameOver && (
         <div className="game-over">
-          <p>
+          <p className="game-over-message">
             {incorrectGuesses >= maxMistakes[difficulty]
               ? `Game Over! The word was: ${selectedWord}`
               : "Congratulations!"}
