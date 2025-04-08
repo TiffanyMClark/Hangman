@@ -1,3 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+:root {
+  --accent-color: #d47e30;
+  --accent-color-two: #d47f309a;
+  --base-color: white;
+  --text-color: #673a3f;
+  --input-color: #f3f0ff;
+  --input-color-two: #f3f0ffc0;
+}
+
 /* Apply background to the entire page */
 html,
 body {
@@ -63,19 +73,20 @@ header {
 }
 
 .riddle-display {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-top: 20px;
   margin-bottom: 10px;
-  -webkit-text-stroke: 2px #000000;
-  color: #d47e30; /* Make the text transparent */
+  -webkit-text-stroke: 2px var(--text-color);
+  color: var(--input-color); /* Make the text transparent */
   padding: 10px;
   background-color: transparent;
+  text-transform: uppercase;
 }
 
 .riddle-display span {
   font-weight: bold;
-  -webkit-text-stroke: 2px #000000;
-  color: #d47e30;
+  -webkit-text-stroke: 2px var(--text-color);
+  color: var(--input-color);
 }
 
 .word-display {
@@ -275,6 +286,9 @@ header {
 
 .play-again-button:hover {
   background-color: #b36c27;
+}
+.game-over-message {
+  color: var(--text-color);
 }
 /* difficulty header above hangman */
 .difficulty-header {
