@@ -8,7 +8,7 @@ import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
 import Confetti from "react-confetti";
-import { getActivePlayerIndex } from "../../utils/saveState";
+import { getActivePlayerIndex, getRegisteredPlayers, getActivePlayer } from "../../utils/saveState";
 
 const activePlayer = getActivePlayerIndex();
 const registerdPlayers = JSON.parse(
@@ -49,7 +49,7 @@ function Hangman() {
     registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
     registerdPlayers[activePlayer].riddle = mockRiddle.question; // Set the riddle for the active player
     registerdPlayers[activePlayer].maxMistakes = maxMistakes[difficulty]; // Set the max mistakes for the active player
-    registerdPlayers[activePlayer].guessedLetters = setUsedLetters(new Set()); // Set the guessed letters for the active player
+    registerdPlayers[activePlayer].guessedLetters = []; // Set the guessed letters for the active player
     registerdPlayers[activePlayer].gameOver = false;// Set attempts left based on difficulty
     //registerdPlayers[activePlayer].difficulty = difficulty; // Set the difficulty for the active player
     localStorage.setItem(
@@ -80,40 +80,105 @@ function Hangman() {
     return [...selectedWord].every((letter) => guessedLetters.has(letter));
   };
 
-  const handleGuess = (letter: string, button: HTMLButtonElement) => {
-    if (gameOver) {
-      return; // Don't allow guesses if the game is over
-    }
-    if (incorrectGuesses >= maxMistakes[difficulty]) {
-      setGameOver(true);
-      setStreak(0); // Reset streak if lose
-      return;
-    }
+  // const handleGuess = (letter: string, button: HTMLButtonElement) => {
+  //   if (gameOver) {
+  //     return; // Don't allow guesses if the game is over
+  //   }
+  //   if (incorrectGuesses >= maxMistakes[difficulty]) {
+  //     setGameOver(true);
+  //     setStreak(0); // Reset streak if lose
+  //     return;
+  //   }
 
+  //   if (selectedWord.includes(letter)) {
+  //     setGuessedLetters((prev) => new Set(prev.add(letter)));
+  //   } else {
+  //     setIncorrectGuesses((prev) => prev + 1);
+  //     registerdPlayers[activePlayer].attemptsLeft = registerdPlayers[activePlayer].maxMistakes - 1; // Decrease attempts left
+  //     localStorage.setItem(
+  //       "registeredPlayers",
+  //       JSON.stringify(registerdPlayers)
+  //     ); // Save updated attempts left to local storage
+  //   }
+
+  //   button.disabled = true;
+  //   button.classList.add("used");
+  //   setUsedLetters((prev) => new Set(prev.add(letter)));
+
+  //   if (isWin()) {
+  //     setGameOver(true);
+  //     setWins(wins + 1); // Increment wins when the player wins
+  //     setStreak(streak + 1); // Increment streak for a win
+  //   }
+  // };
+
+  const handleGuess = (letter: string, button: HTMLButtonElement) => {
+    if (gameOver) return;
+  
+    const activePlayer = getActivePlayer();
+    if (!activePlayer) return;
+  
+    const registeredPlayers = getRegisteredPlayers();
+    const playerIndex = registeredPlayers.findIndex(
+      (player: any) =>
+        player.username === activePlayer.username && player.pin === activePlayer.pin
+    );
+  
+    if (playerIndex === -1) return;
+  
+    const playerData = registeredPlayers[playerIndex];
+  
+    // Update guessed letters
     if (selectedWord.includes(letter)) {
       setGuessedLetters((prev) => new Set(prev.add(letter)));
+      playerData.guessedLetters = [...(playerData.usedLetters || []), letter];
     } else {
       setIncorrectGuesses((prev) => prev + 1);
-      registerdPlayers[activePlayer].attemptsLeft = registerdPlayers[activePlayer].maxMistakes - 1; // Decrease attempts left
-      localStorage.setItem(
-        "registeredPlayers",
-        JSON.stringify(registerdPlayers)
-      ); // Save updated attempts left to local storage
+      playerData.usedLetters = [...(playerData.usedLetters || []), letter];
     }
-
+  
+    // Save updated player data to local storage
+    registeredPlayers[playerIndex] = playerData;
+    localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+  
+    // Disable the button and mark it as used
     button.disabled = true;
     button.classList.add("used");
     setUsedLetters((prev) => new Set(prev.add(letter)));
-
+  
+    // Check for win or loss
     if (isWin()) {
       setGameOver(true);
-      setWins(wins + 1); // Increment wins when the player wins
-      setStreak(streak + 1); // Increment streak for a win
+      setWins(wins + 1);
+      setStreak(streak + 1);
+    } else if (incorrectGuesses >= maxMistakes[difficulty]) {
+      setGameOver(true);
+      setStreak(0);
     }
   };
 
   useEffect(() => {
     fetchNewWord();
+    const activePlayer = getActivePlayer();
+  if (activePlayer) {
+    const registeredPlayers = getRegisteredPlayers();
+    const playerData = registeredPlayers.find(
+      (player: any) =>
+        player.username === activePlayer.username && player.pin === activePlayer.pin
+    );
+
+    if (playerData) {
+      //setGuessedLetters(new Set(playerData.guessedLetters || []));
+      setUsedLetters(new Set(playerData.usedLetters || []));
+      setIncorrectGuesses(playerData.maxMistakes - playerData.attemptsLeft || 0);
+      setSelectedWord(playerData.answer || "");
+      setRiddle(playerData.riddle || "");
+      setDifficulty(playerData.difficulty || "normal");
+      setWins(playerData.wins || 0);
+      setStreak(playerData.streak || 0);
+      setGameOver(playerData.gameOver || false);
+    }
+  }
   }, []);
 
   useEffect(() => {

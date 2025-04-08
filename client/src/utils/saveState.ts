@@ -16,7 +16,7 @@ export interface GameState {
     username: string;
     pin: string;
     difficulty: "easy" | "normal" | "hard";
-    lettersLeft: string[];
+    guessedLetters: string[];
     attemptsLeft: number;
     riddle: string;
     answer: string;
@@ -29,7 +29,7 @@ export interface GameState {
   const GAME_STATES_KEY = "gameStates";
   const ACTIVE_PLAYER_KEY = "activePlayer";
 
-  export const getRegisteredPlayers = (): { username: string; pin: string }[] => {
+  export const getRegisteredPlayers = () => {
     return JSON.parse(localStorage.getItem(REGISTERED_PLAYERS_KEY) || "[]");
 };
 
@@ -53,7 +53,7 @@ export const getActivePlayerIndex = (): number => {
 
   const registeredPlayers = getRegisteredPlayers();
   return registeredPlayers.findIndex(
-    (player) =>
+    (player: any) =>
       player.username === activePlayer.username && player.pin === activePlayer.pin
   );
 };
@@ -67,7 +67,7 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
 
   const registeredPlayers = getRegisteredPlayers();
   return registeredPlayers.find(
-    (player) =>
+    (player: any) =>
       player.username === activePlayer.username && player.pin === activePlayer.pin
   ) || null;
 };
@@ -105,7 +105,7 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
       username,
       pin,
       difficulty,
-      lettersLeft: [...new Set(answer.split(""))], // Unique letters in the answer
+      guessedLetters: [...new Set(answer.split(""))], // Unique letters in the answer
       attemptsLeft: difficulty === "easy" ? 8 : difficulty === "normal" ? 6 : 4,
       riddle,
       answer,
