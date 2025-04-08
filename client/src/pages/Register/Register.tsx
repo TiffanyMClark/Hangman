@@ -1,18 +1,7 @@
 import { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
-
-const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
-const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY) || "[]"); // Array to store registered players
-
-function storeUserData(username: string, pin: string) 
-{
-  const newUser = { username, pin };
-  registerdPlayers.push(newUser);  
-  localStorage.setItem(REGISTERD_PLAYERS_KEY, JSON.stringify(registerdPlayers));
-  console.log("User data stored in local storage:", registerdPlayers);
-  // You can also store the data in a database or send it to a server here
-}
+import { getRegisteredPlayers, setActivePlayer } from '../../utils/saveState';
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -20,22 +9,40 @@ function Register() {
   const [confirmPin, setConfirmPin] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
-  const handleLogin = (e: { preventDefault: () => void; }) => {
+  const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-
-    // Check if the user exists in local storage
-    const users = storedUsers || [];
-    
-
-    // Register the user
-    users.push({ username, pin });
-    //TESTING !!!!
-    storeUserData(username, pin); // Store user data in local storage
+  
+    // Retrieve the latest registeredPlayers array from local storage
+    const registeredPlayers = getRegisteredPlayers();
+  
+    // Check if the username already exists
+    const userExists = registeredPlayers.some(
+      (player) => player.username === username
+    );
+    if (userExists) {
+      setErrorMessage("User already exists. Please choose a different username.");
+      return;
+    }
+  
+    // Check if the pin and confirm pin match
+    if (pin !== confirmPin) {
+      setErrorMessage("Pins do not match. Please try again.");
+      return;
+    }
+  
+    // Add the new user to the registeredPlayers array
+    registeredPlayers.push({ username, pin });
+  
+    // Save the updated array back to local storage
+    localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+  
+    // Set the active player
+    setActivePlayer(username, pin);
+  
     alert("Registration successful!");
     
     navigate("/hangman"); // Redirect to the hangman page
+    navigate(0); // Refresh the page to load the game state
 
     // Clear input fields
     setUsername("");

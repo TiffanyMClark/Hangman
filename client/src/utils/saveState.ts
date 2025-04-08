@@ -74,15 +74,13 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
   //Saves the game state to local storage
   export const saveGameState = (gameState: GameState): void => {
     const gameStates: GameState[] = JSON.parse(localStorage.getItem(GAME_STATES_KEY) || "[]");
-    const existingIndex = gameStates.findIndex(
-      (state) => state.username === gameState.username && state.pin === gameState.pin
-    );
+    const activePlayerIndex = getActivePlayerIndex();
   
-    if (existingIndex !== -1) {
-      // Update existing game state
-      gameStates[existingIndex] = gameState;
+    if (activePlayerIndex !== -1) {
+      // Update the game state for the active player
+      gameStates[activePlayerIndex] = gameState;
     } else {
-      // Add new game state
+      // Add a new game state if the active player index is not found
       gameStates.push(gameState);
     }
   

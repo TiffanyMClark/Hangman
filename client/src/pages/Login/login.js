@@ -2,8 +2,8 @@
 const users = []; // Array to store user data
 const pins = []; // Array to store PINs
 
-// const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
-// const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY)) || []; // Array to store registered players
+const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
+const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY)) || []; // Array to store registered players
 
 // const activeUser = {
 //   username: "",
@@ -16,7 +16,7 @@ function register() {
   const confirmPin = document.getElementById("confirm-pin").value;
 
    // Check if username is already taken
-   if (users.some(user => user.username === username)) {
+   if (registerdPlayers.some(user => user.username === username)) {
     alert("Username is already taken. Please choose another.");
     return;
   }
@@ -30,7 +30,8 @@ if (pin !== confirmPin) {
 
 // Register the user
 // storeUserData(username, pin);
-users.push({ username, pin });
+registerdPlayers.push({ username, pin });
+localStorage.setItem(REGISTERD_PLAYERS_KEY, JSON.stringify(registerdPlayers)); // Save to local storage
 
 alert("Registration successful!");
 

@@ -8,6 +8,13 @@ import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
 import Confetti from "react-confetti";
+import { getActivePlayerIndex } from "../../utils/saveState";
+
+const activePlayer = getActivePlayerIndex();
+const registerdPlayers = JSON.parse(
+  localStorage.getItem("registeredPlayers") || "[]"
+); // Array to store registered players
+//const activePlayerData = registerdPlayers[activePlayer]; // Get the active player data
 
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
@@ -36,8 +43,18 @@ function Hangman() {
       answer: "piano",
     };
 
-    setSelectedWord(mockRiddle.answer.toLowerCase());
+    await setSelectedWord(mockRiddle.answer.toLowerCase());
+    registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
+    localStorage.setItem(
+      "registeredPlayers",
+      JSON.stringify(registerdPlayers)
+    ); // Save updated riddle to local storage
     setRiddle(mockRiddle.question);
+    registerdPlayers[activePlayer].riddle = mockRiddle.question; // Set the riddle for the active player
+    localStorage.setItem(
+      "registeredPlayers",
+      JSON.stringify(registerdPlayers)
+    ); // Save updated riddle to local storage
   };
 
   const resetGame = async () => {
@@ -50,6 +67,11 @@ function Hangman() {
 
   const changeDifficulty = (newDifficulty: "easy" | "normal" | "hard") => {
     setDifficulty(newDifficulty);
+    registerdPlayers[activePlayer].difficulty = newDifficulty; // Set the difficulty for the active player
+    localStorage.setItem(
+      "registeredPlayers",
+      JSON.stringify(registerdPlayers)
+    ); // Save updated difficulty to local storage
     resetGame();
   };
 
@@ -71,6 +93,11 @@ function Hangman() {
       setGuessedLetters((prev) => new Set(prev.add(letter)));
     } else {
       setIncorrectGuesses((prev) => prev + 1);
+      registerdPlayers[activePlayer].attemptsLeft = registerdPlayers[activePlayer].maxMistakes - 1; // Decrease attempts left
+      localStorage.setItem(
+        "registeredPlayers",
+        JSON.stringify(registerdPlayers)
+      ); // Save updated attempts left to local storage
     }
 
     button.disabled = true;

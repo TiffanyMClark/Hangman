@@ -30,13 +30,13 @@ function Login({ }: LoginProps) {
 
   if (userExists) {
     setActivePlayer(username, pin); // Set the active player
-    console.log("Login successful. Active player set with index of: ", getActivePlayerIndex()); 
-    navigate("/hangman"); // Redirect to the hangman page 
-  } 
-  else 
-  {
-      setErrorMessage("Invalid username or pin. Please try again.");
-    }
+    console.log("Login successful. Active player set with index of: ", getActivePlayerIndex());
+
+    navigate("/hangman"); // Redirect to the hangman page
+    navigate(0); // Refresh the page to load the game state
+  } else {
+    setErrorMessage("Invalid username or pin. Please try again.");
+  }
   };
 
   return (
