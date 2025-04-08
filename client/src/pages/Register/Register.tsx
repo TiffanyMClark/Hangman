@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const REGISTERD_PLAYERS_KEY = "registeredPlayers"; // Key for local storage
 const registerdPlayers = JSON.parse(localStorage.getItem(REGISTERD_PLAYERS_KEY) || "[]"); // Array to store registered players
 
