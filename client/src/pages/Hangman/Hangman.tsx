@@ -170,7 +170,6 @@ function Hangman() {
       setStreak(0);
       playerData.streak = 0; // Reset streak
       registeredPlayers[playerIndex] = playerData;
-      localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
     }
   };
 
