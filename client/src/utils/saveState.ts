@@ -10,8 +10,6 @@
     when login, if user exists, load gamestate from local storage with matching username and pin
     if user does not exist, create new user and save gamestate to local storage
 
-
-
 */
 
 export interface GameState {
@@ -26,7 +24,8 @@ export interface GameState {
     streak: number;
   }
 
-  const GAME_STATE_KEY = "gameState"; // Key for local storage
+  // Key for local storage
+  const GAME_STATE_KEY = "gameState";
 
   //Saves the game state to local storage
   export const saveGameState = (gameState: GameState): void => {

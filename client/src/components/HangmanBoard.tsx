@@ -9,16 +9,9 @@ const HangmanBoard: React.FC<HangmanBoardProps> = ({
   incorrectGuesses,
   difficulty,
 }) => {
-  const maxMistakes = {
-    easy: 6,
-    normal: 5,
-    hard: 4,
-  };
-
-  const currentMaxMistakes = maxMistakes[difficulty]; // Set maxMistakes based on difficulty
-
   return (
     <div id="hangman-container">
+      <h2 className="difficulty-header">Difficulty: {difficulty}</h2>
       <svg id="hangman-svg" width="200" height="250" viewBox="0 0 200 250">
         {/* Gallows bottom bar */}
         <line

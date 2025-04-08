@@ -7,7 +7,7 @@ import RiddleDisplay from "../../components/RiddleDisplay.tsx";
 import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
-import { saveGameState, loadGameState, clearGameState } from "../../utils/saveState.ts";
+import Confetti from "react-confetti";
 
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
@@ -104,6 +104,11 @@ function Hangman() {
 
   return (
     <section className="game-container">
+      {/* Show Confetti when the player wins */}
+      {gameOver && isWin() && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
+
       {/* Difficulty Buttons */}
       <div className="difficulty-buttons">
         <DifficultyButtons changeDifficulty={changeDifficulty} />
@@ -159,7 +164,7 @@ function Hangman() {
       {/* Game Over Message with Play Again Button */}
       {gameOver && (
         <div className="game-over">
-          <p>
+          <p className="game-over-message">
             {incorrectGuesses >= maxMistakes[difficulty]
               ? `Game Over! The word was: ${selectedWord}`
               : "Congratulations!"}
