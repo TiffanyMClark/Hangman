@@ -15,7 +15,7 @@
 export interface GameState {
     username: string;
     pin: string;
-    difficulty: string;
+    difficulty: "easy" | "normal" | "hard";
     lettersLeft: string[];
     attemptsLeft: number;
     riddle: string;
@@ -41,6 +41,20 @@ export const setActivePlayer = (username: string, pin: string): void => {
 export const getActivePlayer = (): { username: string; pin: string } | null => {
   const activePlayer = localStorage.getItem(ACTIVE_PLAYER_KEY);
   return activePlayer ? JSON.parse(activePlayer) : null;
+};
+
+//Retrieve the index of the active player from the registeredPlayers array
+export const getActivePlayerIndex = (): number => {
+  const activePlayer = getActivePlayer();
+  if (!activePlayer) {
+    return -1; // No active player
+  }
+
+  const registeredPlayers = getRegisteredPlayers();
+  return registeredPlayers.findIndex(
+    (player) =>
+      player.username === activePlayer.username && player.pin === activePlayer.pin
+  );
 };
 
 // Retrieve the full player object from the registeredPlayers array
@@ -84,7 +98,7 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
   export const createNewGameState = (
     username: string,
     pin: string,
-    difficulty: string,
+    difficulty: "easy" | "normal" | "hard", // Updated type
     riddle: string,
     answer: string
   ): GameState => {
@@ -102,34 +116,4 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
   
     saveGameState(newGameState);
     return newGameState;
-  };
-
-  export const initializeGameState = (
-    username: string,
-    pin: string,
-    difficulty: string,
-    riddle: string,
-    answer: string
-  ): GameState => {
-    const registeredPlayers = getRegisteredPlayers();
-  
-    // Check if the user exists
-    const userExists = registeredPlayers.some(
-      (player) => player.username === username && player.pin === pin
-    );
-  
-    if (!userExists) {
-      // Add new user to registeredPlayers
-      registeredPlayers.push({ username, pin });
-      localStorage.setItem(REGISTERED_PLAYERS_KEY, JSON.stringify(registeredPlayers));
-    }
-  
-    // Load existing game state or create a new one
-    const existingGameState = loadGameState(username, pin);
-    if (existingGameState) {
-      return existingGameState;
-    }
-  
-    // Create a new game state if none exists
-    return createNewGameState(username, pin, difficulty, riddle, answer);
   };

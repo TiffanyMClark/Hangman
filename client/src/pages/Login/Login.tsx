@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../index.css';
-import { getRegisteredPlayers,setActivePlayer } from '../../utils/saveState';
+import { getRegisteredPlayers,setActivePlayer, getActivePlayerIndex } from '../../utils/saveState';
 
 interface User {
   username: string;
@@ -30,12 +30,11 @@ function Login({ }: LoginProps) {
 
   if (userExists) {
     setActivePlayer(username, pin); // Set the active player
-    console.log("Login successful. Active player set.");
-  }
-
-    if (userExists) {
-      navigate("/hangman");
-    } else {
+    console.log("Login successful. Active player set with index of: ", getActivePlayerIndex()); 
+    navigate("/hangman"); // Redirect to the hangman page 
+  } 
+  else 
+  {
       setErrorMessage("Invalid username or pin. Please try again.");
     }
   };
