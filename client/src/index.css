@@ -13,7 +13,7 @@
     
 }
 html {
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 12pt;
   color: var(--text-color);
   text-align: center;
@@ -90,8 +90,9 @@ h1 {
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
+    color: var(--input-color);
     -webkit-text-stroke-width: 3px;
-    -webkit-text-stroke-color: var(--input-color);
+    -webkit-text-stroke-color: var(--text-color);
 }
 .account-message {
     -webkit-text-stroke-width: .5px;
