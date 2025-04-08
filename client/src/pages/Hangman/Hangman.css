@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-  --accent-color: #D47E30;
+  --accent-color: #d47e30;
   --accent-color-two: #d47f309a;
   --base-color: white;
-  --text-color: #673A3F;
-  --input-color: #F3F0FF;
+  --text-color: #673a3f;
+  --input-color: #f3f0ff;
   --input-color-two: #f3f0ffc0;
 }
 
@@ -81,8 +81,6 @@ header {
   padding: 10px;
   background-color: transparent;
   text-transform: uppercase;
-  
-
 }
 
 .riddle-display span {
@@ -291,4 +289,14 @@ header {
 }
 .game-over-message {
   color: var(--text-color);
+}
+/* difficulty header above hangman */
+.difficulty-header {
+  text-align: center;
+  font-size: 24px;
+  background-color: #d47e30;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }

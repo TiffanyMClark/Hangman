@@ -1,19 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-    --accent-color: #D47E30;
-    --accent-color-two: #d47f309a;
-    --base-color: white;
-    --text-color: #673A3F;
-    --input-color: #F3F0FF;
-    --input-color-two: #f3f0ffc0;
+  --accent-color: #d47e30;
+  --accent-color-two: #d47f309a;
+  --base-color: white;
+  --text-color: #673a3f;
+  --input-color: #f3f0ff;
+  --input-color-two: #f3f0ffc0;
 }
-*{
-    margin: 0;
-    padding: 0;
-    
+* {
+  margin: 0;
+  padding: 0;
 }
 html {
+<<<<<<< HEAD
   font-family: Arial, sans-serif;
+=======
+  font-family: "Roboto", sans-serif;
+>>>>>>> tmc
   font-size: 12pt;
   color: var(--text-color);
   text-align: center;
@@ -22,170 +25,177 @@ html {
   justify-content: center;
 }
 body {
-    min-height : 100vh;
-    max-width: fit-content;
-    background-image: url('../assets/bg_img.webp');
-    background-size: cover;
-    background-position: right;
-    overflow: hidden;
-    
+  min-height: 100vh;
+  max-width: fit-content;
+  background-image: url("../assets/bg_img.webp");
+  background-size: cover;
+  background-position: right;
+  overflow: hidden;
 }
 .wrapper {
-    box-sizing: border-box;
-    background-color: var(--base-color);
-    height: 100vh;
-    width: max(40%, 600px);
-    padding: 10px;
-    border-radius: 0 20px 20px 0;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  box-sizing: border-box;
+  background-color: var(--base-color);
+  height: 100vh;
+  width: max(40%, 600px);
+  padding: 10px;
+  border-radius: 0 20px 20px 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .app-title {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: center;
-    background-color: var(--input-color-two);
-    gap: 2rem;
-    padding: 1rem;
-    border-radius: 8px;
-    max-width: 350px;
-    margin: 0 auto;
-  }
-  
-  .nav-link {
-    text-decoration: none;
-    -webkit-text-stroke-width: .25px;
-    -webkit-text-stroke-color: var(--accent-color);
-    color: var(--text-color);
-    font-weight: bold;
-    font-size: 1.3rem;
-  }
-  
-  .nav-link:hover {
-    color: var(--input-color);
-  }
-  
-  .main-content {
-    padding: 1rem;
-  }
-  p {
-    background-color: var(--input-color-two);
-    max-width: 235px;
-    justify-content: center;    
-    margin: 0 auto;
-    padding: 1rem;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 300;
-    text-align: center;
-    -webkit-text-stroke-width: 0.4px;
-    -webkit-text-stroke-color: var(--accent-color);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: var(--input-color-two);
+  gap: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.nav-link {
+  text-decoration: none;
+  -webkit-text-stroke-width: 0.25px;
+  -webkit-text-stroke-color: var(--accent-color);
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.nav-link:hover {
+  color: var(--input-color);
+}
+
+.main-content {
+  padding: 1rem;
+}
+p {
+  background-color: var(--input-color-two);
+  max-width: 235px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  text-align: center;
+  -webkit-text-stroke-width: 0.4px;
+  -webkit-text-stroke-color: var(--accent-color);
 }
 h1 {
+<<<<<<< HEAD
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
     color: var(--input-color);
     -webkit-text-stroke-width: 3px;
     -webkit-text-stroke-color: var(--text-color);
+=======
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: var(--input-color);
+>>>>>>> tmc
 }
 .account-message {
-    -webkit-text-stroke-width: .5px;
-    -webkit-text-stroke-color: var(--text-color);
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: var(--text-color);
 }
-form{
-    width: min(400px, 100%);
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;  
+form {
+  width: min(400px, 100%);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
-form > div{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+form > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 form label {
-    flex-shrink: 0;
-    height: 50px;
-    width: 50px;
-    background-color: var(--accent-color);
-    fill: var(--base-color);
-    border-radius: 10px 0 0 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 500;
+  flex-shrink: 0;
+  height: 50px;
+  width: 50px;
+  background-color: var(--accent-color);
+  fill: var(--base-color);
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 form input {
-    box-sizing: border-box;
-    flex-grow: 1;
-    min-width: 0;
-    height: 50px;
-    padding: 1em;
-    font: inherit;
-    border-radius: 0 10px 10px 0;
-    border: 2px solid var(--input-color);
-    border-left: none;
-    background-color: var(--input-color);
-    transition: 150ms ease;
+  box-sizing: border-box;
+  flex-grow: 1;
+  min-width: 0;
+  height: 50px;
+  padding: 1em;
+  font: inherit;
+  border-radius: 0 10px 10px 0;
+  border: 2px solid var(--input-color);
+  border-left: none;
+  background-color: var(--input-color);
+  transition: 150ms ease;
 }
 form input:hover {
-    border: var(--accent-color);
+  border: var(--accent-color);
 }
 form input:focus {
-    outline: none;
-    background-color: var(--accent-color);
+  outline: none;
+  background-color: var(--accent-color);
 }
 div:has(input:focus) > label {
-    background-color: var(--text-color);
+  background-color: var(--text-color);
 }
 form input::placeholder {
-    color: var(--text-color);
+  color: var(--text-color);
 }
-form button{
-    margin-top: 10px;
-    border: none;
-    border-radius: 1000px;
-    padding: 0.85em 4em;
-    background-color: var(--accent-color);
-    color: var(--base-color);
-    font: inherit;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 150ms ease;
+form button {
+  margin-top: 10px;
+  border: none;
+  border-radius: 1000px;
+  padding: 0.85em 4em;
+  background-color: var(--accent-color);
+  color: var(--base-color);
+  font: inherit;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 150ms ease;
 }
 form button:hover {
-    background-color: var(--text-color);
+  background-color: var(--text-color);
 }
 form button:focus {
-    outline: none;
-    background-color: var(--text-color);
+  outline: none;
+  background-color: var(--text-color);
 }
 a {
-    text-decoration: none;
-    color: var(--accent-color);
+  text-decoration: none;
+  color: var(--accent-color);
 }
 a:hover {
-    text-decoration: underline ;
+  text-decoration: underline;
 }
 @media (max-width: 1100px) {
-    .wrapper {
-        width: min(600px, 100%);
-        border-radius: 0;
-    } 
+  .wrapper {
+    width: min(600px, 100%);
+    border-radius: 0;
+  }
 }
-form div.incorrect label{
-    background-color: #f06272;
+form div.incorrect label {
+  background-color: #f06272;
 }
-form div.incorrect input{
-    background-color: #f06272;
+form div.incorrect input {
+  background-color: #f06272;
 }
