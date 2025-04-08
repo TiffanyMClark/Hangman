@@ -25,7 +25,7 @@ function Login({ }: LoginProps) {
     //const users = storedUsers || [];
     const registeredPlayers = getRegisteredPlayers();
     const userExists = registeredPlayers.some(
-    (player) => player.username === username && player.pin === pin
+    (player: any) => player.username === username && player.pin === pin
   );
 
   if (userExists) {

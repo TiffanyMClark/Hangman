@@ -49,19 +49,23 @@ function Hangman() {
     registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
     registerdPlayers[activePlayer].riddle = mockRiddle.question; // Set the riddle for the active player
     registerdPlayers[activePlayer].maxMistakes = maxMistakes[difficulty]; // Set the max mistakes for the active player
-    registerdPlayers[activePlayer].guessedLetters = []; // Set the guessed letters for the active player
     registerdPlayers[activePlayer].gameOver = false;// Set attempts left based on difficulty
-    //registerdPlayers[activePlayer].difficulty = difficulty; // Set the difficulty for the active player
+    //registerdPlayers[activePlayer].wins = wins; // Set wins for the active player
+    //registerdPlayers[activePlayer].streak = streak; // Set streak for the active player
     localStorage.setItem(
       "registeredPlayers",
       JSON.stringify(registerdPlayers)
     ); // Save updated game state to local storage
   };
 
+  //registerdPlayers[activePlayer].wins = wins; // Set wins for the active player
+  //registerdPlayers[activePlayer].streak = streak; // Set streak for the active player
+
   const resetGame = async () => {
     setIncorrectGuesses(0);
     setGuessedLetters(new Set());
     setUsedLetters(new Set());
+    registerdPlayers[activePlayer].usedLetters = []; // Reset attempts left
     setGameOver(false); // Reset game over state
     await fetchNewWord();
   };
@@ -131,7 +135,7 @@ function Hangman() {
     // Update guessed letters
     if (selectedWord.includes(letter)) {
       setGuessedLetters((prev) => new Set(prev.add(letter)));
-      playerData.guessedLetters = [...(playerData.usedLetters || []), letter];
+      playerData.usedLetters = [...(playerData.usedLetters || []), letter];
     } else {
       setIncorrectGuesses((prev) => prev + 1);
       playerData.usedLetters = [...(playerData.usedLetters || []), letter];
@@ -149,11 +153,24 @@ function Hangman() {
     // Check for win or loss
     if (isWin()) {
       setGameOver(true);
-      setWins(wins + 1);
-      setStreak(streak + 1);
+      setWins((prevWins) => {
+        const newWins = prevWins + 1;
+        playerData.wins = newWins; // Increment wins
+        return newWins;
+      });
+      setStreak((prevStreak) => {
+        const newStreak = prevStreak + 1;
+        playerData.streak = newStreak; // Increment streak
+        return newStreak;
+      });
+      registeredPlayers[playerIndex] = playerData;
+      localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
     } else if (incorrectGuesses >= maxMistakes[difficulty]) {
       setGameOver(true);
       setStreak(0);
+      playerData.streak = 0; // Reset streak
+      registeredPlayers[playerIndex] = playerData;
+      localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
     }
   };
 

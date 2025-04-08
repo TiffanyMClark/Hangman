@@ -17,7 +17,7 @@ function Register() {
   
     // Check if the username already exists
     const userExists = registeredPlayers.some(
-      (player) => player.username === username
+      (player: any) => player.username === username
     );
     if (userExists) {
       setErrorMessage("User already exists. Please choose a different username.");
