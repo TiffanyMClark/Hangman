@@ -7,6 +7,7 @@ import RiddleDisplay from "../../components/RiddleDisplay.tsx";
 import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
+import Confetti from "react-confetti";
 
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
@@ -102,6 +103,11 @@ function Hangman() {
 
   return (
     <section className="game-container">
+      {/* Show Confetti when the player wins */}
+      {gameOver && isWin() && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
+
       {/* Difficulty Buttons */}
       <div className="difficulty-buttons">
         <DifficultyButtons changeDifficulty={changeDifficulty} />

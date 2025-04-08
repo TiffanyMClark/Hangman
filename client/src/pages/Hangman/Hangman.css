@@ -276,3 +276,13 @@ header {
 .play-again-button:hover {
   background-color: #b36c27;
 }
+/* difficulty header above hangman */
+.difficulty-header {
+  text-align: center;
+  font-size: 24px;
+  background-color: #d47e30;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
