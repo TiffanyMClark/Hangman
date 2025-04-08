@@ -111,6 +111,7 @@ export const getCurrentPlayer = (): { username: string; pin: string } | null => 
       answer,
       wins: 0,
       streak: 0,
+      gameOver: false, // Initialize gameOver state
     };
   
     saveGameState(newGameState);
