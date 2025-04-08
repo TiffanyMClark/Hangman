@@ -22,6 +22,7 @@ export interface GameState {
     answer: string;
     wins: number;
     streak: number;
+    gameOver: boolean; // New property to track game over state
   }
 
   const REGISTERED_PLAYERS_KEY = "registeredPlayers";

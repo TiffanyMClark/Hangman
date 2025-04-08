@@ -42,6 +42,8 @@ function Register() {
     alert("Registration successful!");
     
     navigate("/hangman"); // Redirect to the hangman page
+
+    //Wondering if there is a better way to save initial game state
     navigate(0); // Refresh the page to load the game state
 
     // Clear input fields

@@ -44,17 +44,18 @@ function Hangman() {
     };
 
     await setSelectedWord(mockRiddle.answer.toLowerCase());
-    registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
-    localStorage.setItem(
-      "registeredPlayers",
-      JSON.stringify(registerdPlayers)
-    ); // Save updated riddle to local storage
     setRiddle(mockRiddle.question);
+
+    registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
     registerdPlayers[activePlayer].riddle = mockRiddle.question; // Set the riddle for the active player
+    registerdPlayers[activePlayer].maxMistakes = maxMistakes[difficulty]; // Set the max mistakes for the active player
+    registerdPlayers[activePlayer].guessedLetters = setUsedLetters(new Set()); // Set the guessed letters for the active player
+    registerdPlayers[activePlayer].gameOver = false;// Set attempts left based on difficulty
+    //registerdPlayers[activePlayer].difficulty = difficulty; // Set the difficulty for the active player
     localStorage.setItem(
       "registeredPlayers",
       JSON.stringify(registerdPlayers)
-    ); // Save updated riddle to local storage
+    ); // Save updated game state to local storage
   };
 
   const resetGame = async () => {
