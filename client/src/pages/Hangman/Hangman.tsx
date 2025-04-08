@@ -7,6 +7,7 @@ import RiddleDisplay from "../../components/RiddleDisplay.tsx";
 import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
+import { saveGameState, loadGameState, clearGameState } from "../../utils/saveState.ts";
 
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
@@ -20,6 +21,7 @@ function Hangman() {
   const [gameOver, setGameOver] = useState(false);
   const [wins, setWins] = useState(0); // Track number of wins
   const [streak, setStreak] = useState(0); // Track winning streak
+
 
   const maxMistakes = {
     easy: 8,
