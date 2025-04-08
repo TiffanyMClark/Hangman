@@ -37,6 +37,7 @@ function Login({ }: LoginProps) {
   return (
     <section>
       <h1>Login</h1>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form id="form" onSubmit={handleLogin}>
         <div>
           <label htmlFor="username">
