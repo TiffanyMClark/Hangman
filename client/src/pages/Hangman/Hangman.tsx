@@ -105,7 +105,11 @@ function Hangman() {
     <section className="game-container">
       {/* Show Confetti when the player wins */}
       {gameOver && isWin() && (
-        <Confetti width={window.innerWidth} height={window.innerHeight} />
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          gravity={1.5}
+        />
       )}
 
       {/* Difficulty Buttons */}
