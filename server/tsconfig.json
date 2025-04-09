@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",          // Modern JS output
+    "module": "CommonJS",        // For Node.js
+    "outDir": "./dist",          // Compiled JS output
+    "rootDir": "./src",          // Source TS files
+    "strict": true,              // Best practice
+    "esModuleInterop": true,     // For clean import/export
+    "skipLibCheck": true         // Faster compile
+  },
+  "include": ["src"],
+  "typeRoots": ["./node_modules/@types", "./src/types"]
+}
