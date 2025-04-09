@@ -19,7 +19,7 @@ const registerdPlayers = JSON.parse(
   localStorage.getItem("registeredPlayers") || "[]"
 ); // Array to store registered players
 
-interface Riddle {
+interface RiddleDisplayProps {
   question: string;
   answer: string;
   id: string;
@@ -39,7 +39,7 @@ function Hangman() {
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
   const [usedLetters, setUsedLetters] = useState<Set<string>>(new Set());
   const [selectedWord, setSelectedWord] = useState("");
-  const [riddle, setRiddle] = useState<Riddle>({
+  const [riddle, setRiddle] = useState<RiddleDisplayProps>({
     question: "",
     answer: "",
     id: "",
