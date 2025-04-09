@@ -14,7 +14,6 @@ const activePlayer = getActivePlayerIndex();
 const registerdPlayers = JSON.parse(
   localStorage.getItem("registeredPlayers") || "[]"
 ); // Array to store registered players
-//const activePlayerData = registerdPlayers[activePlayer]; // Get the active player data
 
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
@@ -28,7 +27,6 @@ function Hangman() {
   const [gameOver, setGameOver] = useState(false);
   const [wins, setWins] = useState(0); // Track number of wins
   const [streak, setStreak] = useState(0); // Track winning streak
-
 
   const maxMistakes = {
     easy: 8,
@@ -115,38 +113,6 @@ function Hangman() {
       [...selectedWord].every((letter) => guessedLetters.has(letter))
     );
   };
-
-  // const handleGuess = (letter: string, button: HTMLButtonElement) => {
-  //   if (gameOver) {
-  //     return; // Don't allow guesses if the game is over
-  //   }
-  //   if (incorrectGuesses >= maxMistakes[difficulty]) {
-  //     setGameOver(true);
-  //     setStreak(0); // Reset streak if lose
-  //     return;
-  //   }
-
-  //   if (selectedWord.includes(letter)) {
-  //     setGuessedLetters((prev) => new Set(prev.add(letter)));
-  //   } else {
-  //     setIncorrectGuesses((prev) => prev + 1);
-  //     registerdPlayers[activePlayer].attemptsLeft = registerdPlayers[activePlayer].maxMistakes - 1; // Decrease attempts left
-  //     localStorage.setItem(
-  //       "registeredPlayers",
-  //       JSON.stringify(registerdPlayers)
-  //     ); // Save updated attempts left to local storage
-  //   }
-
-  //   button.disabled = true;
-  //   button.classList.add("used");
-  //   setUsedLetters((prev) => new Set(prev.add(letter)));
-
-  //   if (isWin()) {
-  //     setGameOver(true);
-  //     setWins(wins + 1); // Increment wins when the player wins
-  //     setStreak(streak + 1); // Increment streak for a win
-  //   }
-  // };
 
   const handleGuess = (letter: string, button: HTMLButtonElement) => {
     if (gameOver) return;

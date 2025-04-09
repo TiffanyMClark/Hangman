@@ -1,17 +1,3 @@
-/*
-
-    TODO::
-    Make gameState object hold following information:
-    username, pin, difficulty, lettersLeft, attemptsLeft, riddle, answer, wins, streak,
-
-    get username and pin from users array in local storage
-    save gameState to local storage
-
-    when login, if user exists, load gamestate from local storage with matching username and pin
-    if user does not exist, create new user and save gamestate to local storage
-
-*/
-
 export interface GameState {
     username: string;
     pin: string;
