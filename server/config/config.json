@@ -16,7 +16,7 @@
   "production": {
     "username": "postgres",
     "password": "password",
-    "database": "joke_db_production",
+    "database": "joke_db",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

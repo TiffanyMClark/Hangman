@@ -1,5 +1,4 @@
 "use strict";
-
 export default {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.changeColumn("riddles", "question", {
