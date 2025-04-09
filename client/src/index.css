@@ -12,6 +12,7 @@
   padding: 0;
 }
 html {
+  font-family: Arial, sans-serif;
   font-family: "Roboto", sans-serif;
   font-size: 12pt;
   color: var(--text-color);
@@ -85,6 +86,12 @@ p {
   -webkit-text-stroke-color: var(--accent-color);
 }
 h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--input-color);
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: var(--text-color);
   font-size: 3rem;
   font-weight: 900;
   text-transform: uppercase;
