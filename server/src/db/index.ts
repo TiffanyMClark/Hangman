@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME || "joke_db",
+  process.env.DB_NAME || "riddles_db",
   process.env.DB_USER || "",
   process.env.DB_PASSWORD || "",
   {
