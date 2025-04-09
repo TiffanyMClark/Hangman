@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Riddle from "../models/riddle";
-import { getFilteredRiddle } from "../utiils/riddleFetcher";
+import { getFilteredRiddle } from "../utils/riddleFetcher";
 
 // Controller to fetch and store a riddle
 export const fetchAndStoreRiddle = async (req: Request, res: Response) => {
