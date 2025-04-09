@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 export interface RiddleData {
   question: string;
@@ -11,23 +11,36 @@ interface RiddleApiResponse {
 }
 
 export const getFilteredRiddle = async (): Promise<RiddleData> => {
-  const response = await fetch('https://api.api-ninjas.com/v1/riddles', {
-    headers: {
-      'X-Api-Key': process.env.API_NINJAS_KEY || '',
-    },
-  });
+  let validRiddleFound = false;
+  let riddleData: RiddleData = { question: "", answer: "" };
+  let attempts = 0;
+  const maxAttempts = 5;
 
-  // Type assertion: Tell TypeScript that data will be of type RiddleApiResponse[]
-  
-  const data = (await response.json()) as RiddleApiResponse[];
+  while (!validRiddleFound && attempts < maxAttempts) {
+    attempts++;
 
+    // Fetch a new riddle from the API
+    const response = await fetch("https://api.api-ninjas.com/v1/riddles", {
+      headers: {
+        "X-Api-Key": process.env.API_NINJAS_KEY || "",
+      },
+    });
 
+    const data = (await response.json()) as RiddleApiResponse[];
 
-  const { question, answer } = data[0];
+    console.log(`API Response: ${JSON.stringify(data)}`);
 
-  if (answer.split(' ').length > 1 || answer.length < 5 || answer.length > 12) {
-    throw new Error('Invalid riddle answer length');
+    if (data && data.length > 0) {
+      const { question, answer } = data[0];
+      validRiddleFound = true;
+      riddleData = { question, answer };
+    }
   }
 
-  return { question, answer };
+  if (!validRiddleFound) {
+    console.error("Failed to find a valid riddle after multiple attempts");
+    throw new Error("Could not find a valid riddle after multiple attempts");
+  }
+
+  return riddleData;
 };

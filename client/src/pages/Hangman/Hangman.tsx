@@ -31,21 +31,21 @@ function Hangman() {
   // Fetch the riddle from the server
   const fetchNewWord = async () => {
     try {
-      const response = await fetch("http://localhost:3002/riddle"); // Call to the Express API
-      const mockRiddle = await response.json();
+      const response = await fetch("http://localhost:3002/riddle/riddles");
+      const riddles = await response.json(); // This will be an array of riddles
+      console.log("Fetched Riddle:", riddles); // Log the entire array
 
-      // Ensure API response structure
-      if (mockRiddle?.answer && mockRiddle?.question) {
-        setSelectedWord(mockRiddle.answer.toLowerCase()); // Set the word to be guessed
-        setRiddle(mockRiddle.question); // Set the riddle question
+      if (riddles && riddles.length > 0) {
+        const riddle = riddles[0]; // Get the first riddle from the array
+        setSelectedWord(riddle.answer.toLowerCase()); // Set the word to be guessed
+        setRiddle(riddle.question); // Set the riddle question
       } else {
-        throw new Error("Invalid response from server");
+        throw new Error("No riddles found");
       }
     } catch (error) {
       console.error("Failed to fetch riddle:", error);
     }
   };
-
 
   const resetGame = async () => {
     setIncorrectGuesses(0);

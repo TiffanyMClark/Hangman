@@ -1,5 +1,5 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../db';
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelize from "../db";
 
 interface RiddleAttributes {
   id?: number;
@@ -7,9 +7,12 @@ interface RiddleAttributes {
   answer: string;
 }
 
-interface RiddleCreationAttributes extends Optional<RiddleAttributes, 'id'> {}
+interface RiddleCreationAttributes extends Optional<RiddleAttributes, "id"> {}
 
-class Riddle extends Model<RiddleAttributes, RiddleCreationAttributes> implements RiddleAttributes {
+class Riddle
+  extends Model<RiddleAttributes, RiddleCreationAttributes>
+  implements RiddleAttributes
+{
   public id!: number;
   public question!: string;
   public answer!: string;
@@ -28,7 +31,8 @@ Riddle.init(
   },
   {
     sequelize,
-    modelName: 'Riddle',
+    modelName: "riddles",
+    timestamps: true,
   }
 );
 
