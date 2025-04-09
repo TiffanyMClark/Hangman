@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../index.css';
+import { getRegisteredPlayers,setActivePlayer, getActivePlayerIndex } from '../../utils/saveState';
 
 interface User {
   username: string;
@@ -16,22 +17,26 @@ function Login({ }: LoginProps) {
   const [pin, setPin] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
+  //const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
   const handleLogin = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     // Check if the user exists in local storage
-    const users = storedUsers || [];
+    //const users = storedUsers || [];
+    const registeredPlayers = getRegisteredPlayers();
+    const userExists = registeredPlayers.some(
+    (player: any) => player.username === username && player.pin === pin
+  );
 
-    const userExists = users.some(
-      (user: User) => user.username === username && user.pin === pin
-    );
+  if (userExists) {
+    setActivePlayer(username, pin); // Set the active player
+    console.log("Login successful. Active player set with index of: ", getActivePlayerIndex());
 
-    if (userExists) {
-      navigate("/hangman");
-    } else {
-      setErrorMessage("Invalid username or pin. Please try again.");
-    }
+    navigate("/hangman"); // Redirect to the hangman page
+    //navigate(0); // Refresh the page to load the game state
+  } else {
+    setErrorMessage("Invalid username or pin. Please try again.");
+  }
   };
 
   return (
