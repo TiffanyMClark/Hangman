@@ -12,11 +12,7 @@
   padding: 0;
 }
 html {
-<<<<<<< HEAD
   font-family: Arial, sans-serif;
-=======
-  font-family: "Roboto", sans-serif;
->>>>>>> tmc
   font-size: 12pt;
   color: var(--text-color);
   text-align: center;
@@ -89,20 +85,12 @@ p {
   -webkit-text-stroke-color: var(--accent-color);
 }
 h1 {
-<<<<<<< HEAD
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
     color: var(--input-color);
     -webkit-text-stroke-width: 3px;
     -webkit-text-stroke-color: var(--text-color);
-=======
-  font-size: 3rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  -webkit-text-stroke-width: 3px;
-  -webkit-text-stroke-color: var(--input-color);
->>>>>>> tmc
 }
 .account-message {
   -webkit-text-stroke-width: 0.5px;

@@ -16,8 +16,8 @@ function Hangman() {
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
   const [usedLetters, setUsedLetters] = useState<Set<string>>(new Set());
-  const [selectedWord, setSelectedWord] = useState<string>("");
-  const [riddle, setRiddle] = useState<string>("");
+  const [selectedWord, setSelectedWord] = useState<string>(""); // The word to be guessed
+  const [riddle, setRiddle] = useState<string>(""); // The riddle question
   const [gameOver, setGameOver] = useState(false);
   const [wins, setWins] = useState(0); // Track number of wins
   const [streak, setStreak] = useState(0); // Track winning streak
@@ -28,23 +28,25 @@ function Hangman() {
     hard: 4,
   };
 
-  const fetchNewWord = async () => {
-    // Simulate fetching a riddle
-    const mockRiddle = {
-      question: "What has keys but can't open locks?",
-      answer: "piano",
-    };
+  // // Fetch the riddle from the server
+  // const fetchNewWord = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3002/riddle"); 
+  //     const mockRiddle = await response.json();
 
-    setSelectedWord(mockRiddle.answer.toLowerCase());
-    setRiddle(mockRiddle.question);
-  };
+  //     setSelectedWord(mockRiddle.answer.toLowerCase()); 
+  //     setRiddle(mockRiddle.question); 
+  //   } catch (error) {
+  //     console.error("Failed to fetch riddle:", error);
+  //   }
+  // };
 
   const resetGame = async () => {
     setIncorrectGuesses(0);
     setGuessedLetters(new Set());
     setUsedLetters(new Set());
     setGameOver(false); // Reset game over state
-    await fetchNewWord();
+    await fetchNewWord(); // Fetch a new riddle when the game is reset
   };
 
   const changeDifficulty = (newDifficulty: "easy" | "normal" | "hard") => {
@@ -84,7 +86,7 @@ function Hangman() {
   };
 
   useEffect(() => {
-    fetchNewWord();
+    fetchNewWord(); // Fetch the initial riddle when the component mounts
   }, []);
 
   useEffect(() => {
