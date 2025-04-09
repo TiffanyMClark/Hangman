@@ -60,6 +60,13 @@ function Hangman() {
         );
       }
 
+      setRiddle((prevRiddle) => ({
+        ...prevRiddle,
+        question: data.question,
+        id: data.id,
+      }));
+      
+      setSelectedWord(data.answer.toLowerCase());
       setRiddle(data);
       setSelectedWord(data.answer.toLowerCase());
     } catch (error) {

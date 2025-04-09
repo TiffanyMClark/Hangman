@@ -44,5 +44,8 @@ export const getFilteredRiddle = async (): Promise<RiddleData> => {
     throw new Error("Could not find a valid riddle after multiple attempts");
   }
 
+  const myTestRiddle = await getFilteredRiddle();
+  console.log("My Test Riddle:", myTestRiddle);
+
   return riddleData;
 };

@@ -31,17 +31,18 @@ function Register() {
     }
     // THIS IS A SIMPLE BAND AID FIX, APPLY API HERE TO INITIALIZE WITH A UNIQUE RIDDLE
     // AND A UNIQUE ANSWER - ELDRISH (i am so tired i did not sleep)
-    const mockRiddle = {
-      question: "What has keys but can't open locks?",
-      answer: "piano",
-    };
-  
+    // const mockRiddle = {
+    //   question: "What has keys but can't open locks?",
+    //   answer: "piano",
+    // };
+
+      
     // Add the new user to the registeredPlayers array with default difficulty
     registeredPlayers.push({
       username,
       pin,
-      riddle: mockRiddle.question,
-      answer: mockRiddle.answer,
+     // riddle: riddle.question,
+      // answer: riddle.answer,
       difficulty: "normal", // Set default difficulty to "normal"
       usedLetters: [],
       attemptsLeft: 6, // Default for "normal" difficulty
