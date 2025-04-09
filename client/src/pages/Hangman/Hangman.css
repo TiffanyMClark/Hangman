@@ -45,7 +45,7 @@ body::before {
   height: 100vh; /* Full height of the viewport */
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent background */
+
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   position: fixed; /* Position the container fixed to the viewport */
@@ -98,11 +98,11 @@ header {
   -webkit-text-stroke: 2px #000000;
 }
 
-/* Letter buttons - Grouped section */
+/* Letter buttons  */
 .letter-buttons {
   position: absolute;
   left: 20px;
-  top: 50%;
+  top: 80%;
   transform: translateY(-50%);
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Adjust for small screens */
@@ -295,7 +295,7 @@ header {
   text-align: center;
   font-size: 24px;
   background-color: #d47e30;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
