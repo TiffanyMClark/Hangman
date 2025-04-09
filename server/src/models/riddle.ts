@@ -21,11 +21,11 @@ class Riddle
 Riddle.init(
   {
     question: {
-      type: DataTypes.STRING(255), // Increased from 100
+      type: DataTypes.TEXT, // Increased from 100
       allowNull: false,
     },
     answer: {
-      type: DataTypes.STRING(255), // Increased from 20
+      type: DataTypes.TEXT, // Increased from 20
       allowNull: false,
     },
   },

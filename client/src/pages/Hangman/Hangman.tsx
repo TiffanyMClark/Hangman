@@ -9,6 +9,18 @@ import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
 import Confetti from "react-confetti";
 
+interface Riddle {
+  question: string;
+  answer: string;
+  id: string;
+}
+
+const maxMistakes = {
+  easy: 8,
+  normal: 6,
+  hard: 4,
+};
+
 function Hangman() {
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
     "normal"
@@ -16,25 +28,21 @@ function Hangman() {
   const [incorrectGuesses, setIncorrectGuesses] = useState(0);
   const [guessedLetters, setGuessedLetters] = useState<Set<string>>(new Set());
   const [usedLetters, setUsedLetters] = useState<Set<string>>(new Set());
-  const [selectedWord, setSelectedWord] = useState<string>(""); // The word to be guessed
-  const [riddle, setRiddle] = useState<string>(""); // The riddle question
+  const [selectedWord, setSelectedWord] = useState("");
+  const [riddle, setRiddle] = useState<Riddle>({
+    question: "",
+    answer: "",
+    id: "",
+  });
   const [gameOver, setGameOver] = useState(false);
-  const [wins, setWins] = useState(0); // Track number of wins
-  const [streak, setStreak] = useState(0); // Track winning streak
+  const [wins, setWins] = useState(0);
+  const [streak, setStreak] = useState(0);
 
-  const maxMistakes = {
-    easy: 8,
-    normal: 6,
-    hard: 4,
-  };
-
-  // Fetch the riddle from the server
+  // 🧠 Fetch new riddle from backend
   const fetchNewWord = async () => {
     try {
-      // Fetch from the correct endpoint '/riddles'
-      const response = await fetch("http://localhost:3002/riddles");
+      const response = await fetch("http://localhost:3002/api/riddles");
       const data = await response.json();
-      console.log("Fetched Riddle Data:", data);
 
       if (!data.question || !data.answer) {
         throw new Error(
@@ -43,6 +51,7 @@ function Hangman() {
       }
 
       setRiddle(data);
+      setSelectedWord(data.answer.toLowerCase());
     } catch (error) {
       console.error("Error fetching riddle:", error);
     }
@@ -52,8 +61,8 @@ function Hangman() {
     setIncorrectGuesses(0);
     setGuessedLetters(new Set());
     setUsedLetters(new Set());
-    setGameOver(false); // Reset game over state
-    await fetchNewWord(); // Fetch a new riddle when the game is reset
+    setGameOver(false);
+    await fetchNewWord();
   };
 
   const changeDifficulty = (newDifficulty: "easy" | "normal" | "hard") => {
@@ -61,88 +70,71 @@ function Hangman() {
     resetGame();
   };
 
-  const isWin = () => {
-    return [...selectedWord].every((letter) => guessedLetters.has(letter));
-  };
+  const isWin = () =>
+    selectedWord.split("").every((letter) => guessedLetters.has(letter));
 
   const handleGuess = (letter: string, button: HTMLButtonElement) => {
-    if (gameOver) {
-      return; // Don't allow guesses if the game is over
-    }
-    if (incorrectGuesses >= maxMistakes[difficulty]) {
-      setGameOver(true);
-      setStreak(0); // Reset streak if lose
-      return;
-    }
+    if (gameOver || usedLetters.has(letter)) return;
 
-    if (selectedWord.includes(letter)) {
-      setGuessedLetters((prev) => new Set(prev.add(letter)));
+    const isCorrect = selectedWord.includes(letter);
+    if (isCorrect) {
+      setGuessedLetters((prev) => new Set(prev).add(letter));
     } else {
       setIncorrectGuesses((prev) => prev + 1);
     }
 
     button.disabled = true;
     button.classList.add("used");
-    setUsedLetters((prev) => new Set(prev.add(letter)));
-
-    if (isWin()) {
-      setGameOver(true);
-      setWins(wins + 1); // Increment wins when the player wins
-      setStreak(streak + 1); // Increment streak for a win
-    }
+    setUsedLetters((prev) => new Set(prev).add(letter));
   };
 
+  // 🎯 Win/loss conditions
   useEffect(() => {
-    fetchNewWord(); // Fetch the initial riddle when the component mounts
-  }, []);
+    if (!selectedWord) return;
+
+    const win = selectedWord
+      .split("")
+      .every((letter) => guessedLetters.has(letter));
+    const lose = incorrectGuesses >= maxMistakes[difficulty];
+
+    if (win || lose) {
+      setGameOver(true);
+      setStreak(win ? streak + 1 : 0);
+      setWins(win ? wins + 1 : wins);
+    }
+  }, [guessedLetters, incorrectGuesses]);
 
   useEffect(() => {
-    if (
-      selectedWord &&
-      [...selectedWord].every((letter) => guessedLetters.has(letter))
-    ) {
-      setGameOver(true);
-      setWins(wins + 1); // Increment wins if player wins
-      setStreak(streak + 1); // Increment streak
-    } else if (incorrectGuesses >= maxMistakes[difficulty]) {
-      setGameOver(true);
-      setStreak(0); // Reset streak if game is lost
-    }
-  }, [guessedLetters, incorrectGuesses, selectedWord, difficulty]);
+    fetchNewWord();
+  }, []);
 
   return (
     <section className="game-container">
-      {/* Show Confetti when the player wins */}
       {gameOver && isWin() && (
         <Confetti width={window.innerWidth} height={window.innerHeight} />
       )}
 
-      {/* Difficulty Buttons */}
       <div className="difficulty-buttons">
         <DifficultyButtons changeDifficulty={changeDifficulty} />
       </div>
 
-      {/* Riddle Display */}
       <div className="riddle-display">
         <RiddleDisplay riddle={riddle} />
       </div>
 
-      {/* Word Display */}
       <div className="word-display">
         <WordDisplay word={selectedWord} guessedLetters={guessedLetters} />
       </div>
 
-      {/* Letter Buttons */}
       <div className="letter-buttons">
         <LetterButtons
           usedLetters={usedLetters}
           handleGuess={handleGuess}
           difficulty={difficulty}
-          gameOver={gameOver} // Pass gameOver prop
+          gameOver={gameOver}
         />
       </div>
 
-      {/* Score Display */}
       <div className="score-container">
         <Score
           incorrectGuesses={incorrectGuesses}
@@ -153,7 +145,6 @@ function Hangman() {
         />
       </div>
 
-      {/* Hangman Canvas */}
       <div className="hangman-container">
         <HangmanCanvas
           incorrectGuesses={incorrectGuesses}
@@ -161,7 +152,6 @@ function Hangman() {
         />
       </div>
 
-      {/* Hangman Board */}
       <div className="hangman-board-container">
         <HangmanBoard
           incorrectGuesses={incorrectGuesses}
@@ -169,7 +159,6 @@ function Hangman() {
         />
       </div>
 
-      {/* Game Over Message with Play Again Button */}
       {gameOver && (
         <div className="game-over">
           <p className="game-over-message">

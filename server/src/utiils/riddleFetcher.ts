@@ -32,6 +32,8 @@ export const getFilteredRiddle = async (): Promise<RiddleData> => {
 
     if (data && data.length > 0) {
       const { question, answer } = data[0];
+      console.log("API Response:", JSON.stringify(data, null, 2)); // More readable output
+
       validRiddleFound = true;
       riddleData = { question, answer };
     }

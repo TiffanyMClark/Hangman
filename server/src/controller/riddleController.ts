@@ -8,7 +8,11 @@ export const fetchAndStoreRiddle = async (req: Request, res: Response) => {
     const { question, answer } = await getFilteredRiddle();
     console.log("Fetched Riddle:", { question, answer });
     const newRiddle = await Riddle.create({ question, answer });
-    res.json({ id: newRiddle.id, question: newRiddle.question });
+    res.json({
+      id: newRiddle.id,
+      question: newRiddle.question,
+      answer: newRiddle.answer,
+    });
   } catch (error: any) {
     console.error("Error fetching or storing riddle:", error.message);
     res.status(500).json({ error: error.message });
