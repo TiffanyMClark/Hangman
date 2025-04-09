@@ -1,35 +1,29 @@
-import fetch from 'node-fetch';
+import { Request, Response } from 'express';
+import Riddle from '../models/riddle';
+import { getFilteredRiddle } from '../utiils/riddleFetcher';
 
-export const getFilteredRiddle = async () => {
+export const fetchAndStoreRiddle = async (req: Request, res: Response) => {
   try {
-    
-// Fetch one riddle from the API
-    const response = await fetch('https://api.api-ninjas.com/v1/riddles', {
-      headers: {
-        'X-Api-Key': process.env.API_NINJAS_KEY || '',
-      },
-    });
+    const { question, answer } = await getFilteredRiddle();
+    const newRiddle = await Riddle.create({ question, answer });
 
-    const data = await response.json() as any[];
-
-// Get the first riddle from the response
-    const riddle = data[0];
-
-// Filter for 1 word answers
-
-    const answerWords = riddle.answer.trim().split(' ');
-    if (answerWords.length === 1 && riddle.answer.length >= 5 && riddle.answer.length <= 12) {
-      return {
-        question: riddle.question,
-        answer: riddle.answer,
-      };
-    }
-
-   
-    return null;
-
-  } catch (error) {
-    console.error('Error fetching riddle:', error);
-    throw new Error('Unable to fetch riddle');
+    res.json({ id: newRiddle.id, question: newRiddle.question });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
   }
+};
+
+export const validateAnswer = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { userAnswer } = req.body;
+
+  const riddle = await Riddle.findByPk(id);
+
+  if (!riddle) {
+    return res.status(404).json({ error: 'Riddle not found' });
+  }
+
+  const isCorrect = userAnswer.toLowerCase() === riddle.answer.toLowerCase();
+
+  res.json({ correct: isCorrect });
 };

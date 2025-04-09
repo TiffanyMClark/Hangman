@@ -1,9 +1,9 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { fetchAndStoreRiddle, validateAnswer } from '../controller/riddleController';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-  res.json({ riddle: 'What is black and white and read all over?' });
-});
+router.get('/riddles', fetchAndStoreRiddle);
+router.post('/riddles/:id/validate', validateAnswer);
 
 export default router;

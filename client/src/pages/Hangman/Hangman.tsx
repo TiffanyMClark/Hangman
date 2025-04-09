@@ -28,18 +28,24 @@ function Hangman() {
     hard: 4,
   };
 
-  // // Fetch the riddle from the server
-  // const fetchNewWord = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3002/riddle"); 
-  //     const mockRiddle = await response.json();
+  // Fetch the riddle from the server
+  const fetchNewWord = async () => {
+    try {
+      const response = await fetch("http://localhost:3002/riddle"); // Call to the Express API
+      const mockRiddle = await response.json();
 
-  //     setSelectedWord(mockRiddle.answer.toLowerCase()); 
-  //     setRiddle(mockRiddle.question); 
-  //   } catch (error) {
-  //     console.error("Failed to fetch riddle:", error);
-  //   }
-  // };
+      // Ensure API response structure
+      if (mockRiddle?.answer && mockRiddle?.question) {
+        setSelectedWord(mockRiddle.answer.toLowerCase()); // Set the word to be guessed
+        setRiddle(mockRiddle.question); // Set the riddle question
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (error) {
+      console.error("Failed to fetch riddle:", error);
+    }
+  };
+
 
   const resetGame = async () => {
     setIncorrectGuesses(0);
