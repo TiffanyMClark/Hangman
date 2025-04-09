@@ -29,9 +29,26 @@ function Register() {
       setErrorMessage("Pins do not match. Please try again.");
       return;
     }
+    // THIS IS A SIMPLE BAND AID FIX, APPLY API HERE TO INITIALIZE WITH A UNIQUE RIDDLE
+    // AND A UNIQUE ANSWER - ELDRISH (i am so tired i did not sleep)
+    const mockRiddle = {
+      question: "What has keys but can't open locks?",
+      answer: "piano",
+    };
   
-    // Add the new user to the registeredPlayers array
-    registeredPlayers.push({ username, pin });
+    // Add the new user to the registeredPlayers array with default difficulty
+    registeredPlayers.push({
+      username,
+      pin,
+      riddle: mockRiddle.question,
+      answer: mockRiddle.answer,
+      difficulty: "normal", // Set default difficulty to "normal"
+      usedLetters: [],
+      attemptsLeft: 6, // Default for "normal" difficulty
+      wins: 0,
+      streak: 0,
+      gameOver: false,
+    });
   
     // Save the updated array back to local storage
     localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
@@ -44,7 +61,7 @@ function Register() {
     navigate("/hangman"); // Redirect to the hangman page
 
     //Wondering if there is a better way to save initial game state
-    navigate(0); // Refresh the page to load the game state
+    //navigate(0); // Refresh the page to load the game state
 
     // Clear input fields
     setUsername("");

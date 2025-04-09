@@ -33,7 +33,7 @@ function Login({ }: LoginProps) {
     console.log("Login successful. Active player set with index of: ", getActivePlayerIndex());
 
     navigate("/hangman"); // Redirect to the hangman page
-    navigate(0); // Refresh the page to load the game state
+    //navigate(0); // Refresh the page to load the game state
   } else {
     setErrorMessage("Invalid username or pin. Please try again.");
   }

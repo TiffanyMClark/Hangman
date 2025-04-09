@@ -37,36 +37,64 @@ function Hangman() {
   };
 
   const fetchNewWord = async () => {
-    // Simulate fetching a riddle
     const mockRiddle = {
       question: "What has keys but can't open locks?",
       answer: "piano",
     };
-
+  
     await setSelectedWord(mockRiddle.answer.toLowerCase());
     setRiddle(mockRiddle.question);
-
-    registerdPlayers[activePlayer].answer = mockRiddle.answer.toLowerCase(); // Set the riddle for the active player
-    registerdPlayers[activePlayer].riddle = mockRiddle.question; // Set the riddle for the active player
-    registerdPlayers[activePlayer].maxMistakes = maxMistakes[difficulty]; // Set the max mistakes for the active player
-    registerdPlayers[activePlayer].gameOver = false;// Set attempts left based on difficulty
-    //registerdPlayers[activePlayer].wins = wins; // Set wins for the active player
-    //registerdPlayers[activePlayer].streak = streak; // Set streak for the active player
-    localStorage.setItem(
-      "registeredPlayers",
-      JSON.stringify(registerdPlayers)
-    ); // Save updated game state to local storage
+    setGuessedLetters(new Set()); // Ensure guessedLetters is reset
+  
+    const activePlayer = getActivePlayer();
+    if (activePlayer) {
+      const registeredPlayers = getRegisteredPlayers();
+      const playerIndex = registeredPlayers.findIndex(
+        (player: any) =>
+          player.username === activePlayer.username && player.pin === activePlayer.pin
+      );
+  
+      if (playerIndex !== -1) {
+        const playerData = registeredPlayers[playerIndex];
+        playerData.answer = mockRiddle.answer.toLowerCase();
+        playerData.riddle = mockRiddle.question;
+        playerData.maxMistakes = maxMistakes[difficulty];
+        playerData.attemptsLeft = maxMistakes[difficulty]; // Initialize attemptsLeft
+        playerData.guessedLetters = []; // Reset guessedLetters
+        playerData.usedLetters = []; // Reset usedLetters
+        playerData.gameOver = false;
+  
+        registeredPlayers[playerIndex] = playerData;
+        localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+      }
+    }
   };
-
-  //registerdPlayers[activePlayer].wins = wins; // Set wins for the active player
-  //registerdPlayers[activePlayer].streak = streak; // Set streak for the active player
 
   const resetGame = async () => {
     setIncorrectGuesses(0);
     setGuessedLetters(new Set());
     setUsedLetters(new Set());
-    registerdPlayers[activePlayer].usedLetters = []; // Reset attempts left
-    setGameOver(false); // Reset game over state
+  
+    const activePlayer = getActivePlayer();
+    if (activePlayer) {
+      const registeredPlayers = getRegisteredPlayers();
+      const playerIndex = registeredPlayers.findIndex(
+        (player: any) =>
+          player.username === activePlayer.username && player.pin === activePlayer.pin
+      );
+  
+      if (playerIndex !== -1) {
+        const playerData = registeredPlayers[playerIndex];
+        playerData.usedLetters = [];
+        playerData.attemptsLeft = maxMistakes[difficulty]; // Reset attemptsLeft
+        playerData.gameOver = false;
+  
+        registeredPlayers[playerIndex] = playerData;
+        localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+      }
+    }
+  
+    setGameOver(false);
     await fetchNewWord();
   };
 
@@ -81,7 +109,11 @@ function Hangman() {
   };
 
   const isWin = () => {
-    return [...selectedWord].every((letter) => guessedLetters.has(letter));
+    return (
+      selectedWord &&
+      selectedWord.length > 0 &&
+      [...selectedWord].every((letter) => guessedLetters.has(letter))
+    );
   };
 
   // const handleGuess = (letter: string, button: HTMLButtonElement) => {
@@ -132,69 +164,83 @@ function Hangman() {
   
     const playerData = registeredPlayers[playerIndex];
   
-    // Update guessed letters
+    // Update guessed letters and used letters
     if (selectedWord.includes(letter)) {
       setGuessedLetters((prev) => new Set(prev.add(letter)));
-      playerData.usedLetters = [...(playerData.usedLetters || []), letter];
     } else {
       setIncorrectGuesses((prev) => prev + 1);
-      playerData.usedLetters = [...(playerData.usedLetters || []), letter];
+      playerData.attemptsLeft -= 1; // Decrease attemptsLeft
     }
   
-    // Save updated player data to local storage
-    registeredPlayers[playerIndex] = playerData;
-    localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+    setUsedLetters((prev) => {
+      const updatedUsedLetters = new Set(prev.add(letter));
+      playerData.usedLetters = Array.from(updatedUsedLetters);
+      registeredPlayers[playerIndex] = playerData;
+      localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+      return updatedUsedLetters;
+    });
   
     // Disable the button and mark it as used
     button.disabled = true;
     button.classList.add("used");
-    setUsedLetters((prev) => new Set(prev.add(letter)));
   
     // Check for win or loss
     if (isWin()) {
       setGameOver(true);
+  
+      // Update wins
       setWins((prevWins) => {
         const newWins = prevWins + 1;
-        playerData.wins = newWins; // Increment wins
+        registerdPlayers[getActivePlayerIndex()].wins += 1; // Increment wins in local storage
+        localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
         return newWins;
       });
+  
+      // Update streak
       setStreak((prevStreak) => {
         const newStreak = prevStreak + 1;
-        playerData.streak = newStreak; // Increment streak
+        registerdPlayers[getActivePlayerIndex()].streak += 1 // Increment streak in local storage
+        localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
         return newStreak;
       });
+  
+      // Save updated player data to local storage
       registeredPlayers[playerIndex] = playerData;
       localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
-    } else if (incorrectGuesses >= maxMistakes[difficulty]) {
+    } else if (playerData.attemptsLeft <= 0) {
       setGameOver(true);
+  
+      // Reset streak on loss
       setStreak(0);
-      playerData.streak = 0; // Reset streak
+      playerData.streak = 0; // Reset streak in local storage
+  
+      // Save updated player data to local storage
       registeredPlayers[playerIndex] = playerData;
+      localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
     }
   };
 
   useEffect(() => {
-    fetchNewWord();
     const activePlayer = getActivePlayer();
-  if (activePlayer) {
-    const registeredPlayers = getRegisteredPlayers();
-    const playerData = registeredPlayers.find(
-      (player: any) =>
-        player.username === activePlayer.username && player.pin === activePlayer.pin
-    );
-
-    if (playerData) {
-      //setGuessedLetters(new Set(playerData.guessedLetters || []));
-      setUsedLetters(new Set(playerData.usedLetters || []));
-      setIncorrectGuesses(playerData.maxMistakes - playerData.attemptsLeft || 0);
-      setSelectedWord(playerData.answer || "");
-      setRiddle(playerData.riddle || "");
-      setDifficulty(playerData.difficulty || "normal");
-      setWins(playerData.wins || 0);
-      setStreak(playerData.streak || 0);
-      setGameOver(playerData.gameOver || false);
+    if (activePlayer) {
+      const registeredPlayers = getRegisteredPlayers();
+      const playerData = registeredPlayers.find(
+        (player: any) =>
+          player.username === activePlayer.username && player.pin === activePlayer.pin
+      );
+  
+      if (playerData) {
+        setGuessedLetters(new Set(playerData.guessedLetters || []));
+        setUsedLetters(new Set(playerData.usedLetters || []));
+        setIncorrectGuesses(playerData.maxMistakes - playerData.attemptsLeft || 0);
+        setSelectedWord(playerData.answer || ""); // Ensure selectedWord is set
+        setRiddle(playerData.riddle || "");
+        setDifficulty(playerData.difficulty || "normal");
+        setWins(playerData.wins || 0); // Load wins
+        setStreak(playerData.streak || 0); // Load streak
+        setGameOver(playerData.gameOver || false);
+      }
     }
-  }
   }, []);
 
   useEffect(() => {
