@@ -1,11 +1,9 @@
-import express from 'express';
-import gameRoutes from './routes/game.routes';
-import errorHandler from './middlewares/errorHandler';
-
+const express = require('express');
 const app = express();
+const riddleRoutes = require('./routes/riddleRoutes');
 
 app.use(express.json());
-app.use('/api/game', gameRoutes); 
-app.use(errorHandler);
+app.use('/api/riddles', riddleRoutes);
 
-export default app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));

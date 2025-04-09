@@ -1,18 +1,8 @@
-interface RiddleDisplayProps {
-  riddle: string;
-}
-
-const RiddleDisplay = ({ riddle }: RiddleDisplayProps) => {
-  
-  const riddleLetters = riddle.split("").map((char, index) => (
-    <span key={index} data-letter={char}>
-      {char}
-    </span>
-  ));
-
+const RiddleDisplay = ({ riddle }: any) => {
+  console.log("RiddleDisplay Props:", riddle);
   return (
     <div className="riddle-display">
-      <h2>Riddle: {riddleLetters}</h2>
+      <h2>Riddle: {riddle.question}</h2>
     </div>
   );
 };
