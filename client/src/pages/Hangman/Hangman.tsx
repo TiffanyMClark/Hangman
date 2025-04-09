@@ -90,19 +90,18 @@ function Hangman() {
 
   // 🎯 Win/loss conditions
   useEffect(() => {
-    if (!selectedWord) return;
-
-    const win = selectedWord
-      .split("")
-      .every((letter) => guessedLetters.has(letter));
-    const lose = incorrectGuesses >= maxMistakes[difficulty];
-
-    if (win || lose) {
+    if (
+      selectedWord &&
+      [...selectedWord].every((letter) => guessedLetters.has(letter))
+    ) {
       setGameOver(true);
-      setStreak(win ? streak + 1 : 0);
-      setWins(win ? wins + 1 : wins);
+      setWins(wins + 1); // Increment wins if player wins
+      setStreak(streak + 1); // Increment streak
+    } else if (incorrectGuesses >= maxMistakes[difficulty]) {
+      setGameOver(true);
+      setStreak(0); // Reset streak if game is lost
     }
-  }, [guessedLetters, incorrectGuesses]);
+  }, [guessedLetters, incorrectGuesses, selectedWord, difficulty]);
 
   useEffect(() => {
     fetchNewWord();
