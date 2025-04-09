@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getRegisteredPlayers, setActivePlayer } from '../../utils/saveState';
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -9,19 +9,59 @@ function Register() {
   const [confirmPin, setConfirmPin] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
-  const handleLogin = (e: { preventDefault: () => void; }) => {
+  const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-
-    // Check if the user exists in local storage
-    const users = storedUsers || [];
-    
-
-    // Register the user
-    users.push({ username, pin });
+  
+    // Retrieve the latest registeredPlayers array from local storage
+    const registeredPlayers = getRegisteredPlayers();
+  
+    // Check if the username already exists
+    const userExists = registeredPlayers.some(
+      (player: any) => player.username === username
+    );
+    if (userExists) {
+      setErrorMessage("User already exists. Please choose a different username.");
+      return;
+    }
+  
+    // Check if the pin and confirm pin match
+    if (pin !== confirmPin) {
+      setErrorMessage("Pins do not match. Please try again.");
+      return;
+    }
+    // THIS IS A SIMPLE BAND AID FIX, APPLY API HERE TO INITIALIZE WITH A UNIQUE RIDDLE
+    // AND A UNIQUE ANSWER - ELDRISH (i am so tired i did not sleep)
+    const mockRiddle = {
+      question: "What has keys but can't open locks?",
+      answer: "piano",
+    };
+  
+    // Add the new user to the registeredPlayers array with default difficulty
+    registeredPlayers.push({
+      username,
+      pin,
+      riddle: mockRiddle.question,
+      answer: mockRiddle.answer,
+      difficulty: "normal", // Set default difficulty to "normal"
+      usedLetters: [],
+      attemptsLeft: 6, // Default for "normal" difficulty
+      wins: 0,
+      streak: 0,
+      gameOver: false,
+    });
+  
+    // Save the updated array back to local storage
+    localStorage.setItem("registeredPlayers", JSON.stringify(registeredPlayers));
+  
+    // Set the active player
+    setActivePlayer(username, pin);
+  
     alert("Registration successful!");
+    
     navigate("/hangman"); // Redirect to the hangman page
+
+    //Wondering if there is a better way to save initial game state
+    //navigate(0); // Refresh the page to load the game state
 
     // Clear input fields
     setUsername("");
@@ -105,7 +145,8 @@ function Register() {
       </form>
       <p id="account-message">
         Already have an account?  
-        <a><Link to="/Login">  Login</Link></a>
+        <Link to="/Login">Login</Link> {/* testing */}
+      {/*<a><Link to="/Login">  Login</Link></a>*/}
       </p>
     </section>
   );
