@@ -8,8 +8,7 @@ import Score from "../../components/Score.tsx";
 import WordDisplay from "../../components/WordDisplay.tsx";
 import DifficultyButtons from "../../components/DifficultyButtons";
 import Confetti from "react-confetti";
-import LogRocket from "logrocket";
-LogRocket.init("qwju3q/hangman");
+
 interface Riddle {
   question: string;
   answer: string;
