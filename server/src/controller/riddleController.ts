@@ -15,8 +15,8 @@ export const fetchAndStoreRiddle = async (req: Request, res: Response) => {
     });
     console.log("Stored Riddle:", newRiddle);
   } catch (error: any) {
-    console.error("Error fetching or storing riddle:", error.message);
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching or storing riddle:", error);
+    res.status(500).json({ error});
   }
 };
 
