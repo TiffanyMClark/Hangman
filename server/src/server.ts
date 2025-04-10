@@ -13,7 +13,14 @@ const PORT = process.env.PORT || 3002;
 
 app.use(corsMiddleware);
 // Serve static files from the client build directory
-const clientDistPath = path.resolve(__dirname, "../client/dist");
+const clientDistPath = path.join(process.cwd(), "client", "dist");
+
+app.use(express.static(clientDistPath));
+
+app.get("/", (_req: Request, res: Response) => {
+  res.sendFile(path.join(clientDistPath, "index.html"));
+});
+
 app.use(express.static(clientDistPath));
 // Serve the index.html file for all non-API routes
 app.get("/", (_req: Request, res: Response) => {
