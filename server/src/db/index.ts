@@ -14,3 +14,4 @@ const sequelize = new Sequelize(
 );
 
 export default sequelize;
+// riddles table for it!

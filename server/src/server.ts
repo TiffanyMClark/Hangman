@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import path from "path";
 import dotenv from "dotenv";
 import router from "./routes/riddleRoute";
 import corsMiddleware from "./middleware/corsMiddleware"; // Use the middleware here
@@ -15,7 +16,7 @@ app.use(express.static("../client/dist"));
 // Test route to check if the server is working
 
 app.get("/", (_req: Request, res: Response) => {
-  res.sendFile("../client/dist/index.html");
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
 // Use the riddle route for any requests starting with '/riddle'
