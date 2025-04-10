@@ -19,23 +19,36 @@ export const getFilteredRiddle = async (): Promise<RiddleData> => {
   while (!validRiddleFound && attempts < maxAttempts) {
     attempts++;
 
-    // Fetch a new riddle from the API
-    const response = await fetch("https://api.api-ninjas.com/v1/riddles", {
-      headers: {
-        "X-Api-Key": process.env.API_NINJAS_KEY || "",
-      },
-    });
+    try {
+      // Fetch a new riddle from the API
+      const response = await fetch("https://api.api-ninjas.com/v1/riddles", {
+        headers: {
+          "X-Api-Key": process.env.API_NINJAS_KEY || "",
+        },
+      });
 
-    const data = (await response.json()) as RiddleApiResponse[];
+      if (!response.ok) {
+        throw new Error(`Failed to fetch riddle: ${response.statusText}`);
+      }
 
-    console.log(`API Response: ${JSON.stringify(data)}`);
+      const data = (await response.json()) as RiddleApiResponse[];
 
-    if (data && data.length > 0) {
-      const { question, answer } = data[0];
-      console.log("API Response:", JSON.stringify(data, null, 2)); // More readable output
+      console.log(`API Response: ${JSON.stringify(data)}`);
 
-      validRiddleFound = true;
-      riddleData = { question, answer };
+      if (data && data.length > 0 && data[0].question && data[0].answer) {
+        const { question, answer } = data[0];
+        console.log("Fetched Riddle:", { question, answer });
+
+        validRiddleFound = true;
+        riddleData = { question, answer };
+      }
+    } catch (error: unknown) {
+      // Typecast the error to 'Error'
+      if (error instanceof Error) {
+        console.error("Error fetching riddle:", error.message);
+      } else {
+        console.error("Unknown error:", error);
+      }
     }
   }
 
