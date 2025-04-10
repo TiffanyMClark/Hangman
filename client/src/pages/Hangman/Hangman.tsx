@@ -41,7 +41,7 @@ function Hangman() {
   // 🧠 Fetch new riddle from backend
   const fetchNewWord = async () => {
     try {
-      const response = await fetch("http://localhost:3002/api/riddles");
+      const response = await fetch("https://hangman-c744.onrender.com");
       const data = await response.json();
 
       if (!data.question || !data.answer) {
