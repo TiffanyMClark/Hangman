@@ -44,28 +44,33 @@ function Hangman() {
       const response = await fetch(
         "https://hangman-c744.onrender.com/api/riddles"
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
-      // Log the data to check its structure
-      console.log("Fetched Data:", data);
+      // Check if data is an array and has at least one element
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error("Invalid response from server: No riddles found");
+      }
 
-      // Check if data is an array or object and if it contains 'question' and 'answer'
-      if (!data || typeof data !== "object" || !data.question || !data.answer) {
+      // Access the first riddle object
+      const riddle = data[0];
+
+      // Check if the riddle object has the required properties
+      if (!riddle.question || !riddle.answer) {
         throw new Error(
           'Invalid response from server: Missing "question" or "answer"'
         );
       }
 
-      // Proceed if the data is valid
-      setRiddle(data);
-      setSelectedWord(data.answer.toLowerCase());
+      // Set the riddle and selected word
+      setRiddle(riddle); // Assuming setRiddle expects an object with question and answer
+      setSelectedWord(riddle.answer.toLowerCase());
     } catch (error) {
-      // Handle errors properly
-      if (error instanceof Error) {
-        console.error("Error fetching riddle:", error.message);
-      } else {
-        console.error("Unknown error:", error);
-      }
+      console.error("Error fetching riddle:", error);
     }
   };
 
