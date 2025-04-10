@@ -3,7 +3,7 @@ import dotenv, { config } from "dotenv";
 import router from "./routes/riddleRoute";
 import path from "path";
 import corsMiddleware from "./middleware/corsMiddleware"; // Use the middleware here
-import {sequelize} from "./config/connection"; // Import the sequelize instance
+import sequelize from "./config/connection"; // Import the sequelize instance
 
 dotenv.config();
 

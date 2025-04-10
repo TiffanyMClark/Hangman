@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../db";
+import sequelize from "../config/connection.js";
 
 interface RiddleAttributes {
   id?: number;
