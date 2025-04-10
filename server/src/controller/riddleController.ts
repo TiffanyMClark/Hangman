@@ -9,7 +9,6 @@ export const fetchAndStoreRiddle = async (req: Request, res: Response) => {
     console.log("Fetched Riddle:", { question, answer });
     const newRiddle = await Riddle.create({ question, answer });
     res.json({
-      id: newRiddle.id,
       question: newRiddle.question,
       answer: newRiddle.answer,
     });
