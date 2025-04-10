@@ -46,16 +46,26 @@ function Hangman() {
       );
       const data = await response.json();
 
-      if (!data.question || !data.answer) {
+      // Log the data to check its structure
+      console.log("Fetched Data:", data);
+
+      // Check if data is an array or object and if it contains 'question' and 'answer'
+      if (!data || typeof data !== "object" || !data.question || !data.answer) {
         throw new Error(
           'Invalid response from server: Missing "question" or "answer"'
         );
       }
 
+      // Proceed if the data is valid
       setRiddle(data);
       setSelectedWord(data.answer.toLowerCase());
     } catch (error) {
-      console.error("Error fetching riddle:", error);
+      // Handle errors properly
+      if (error instanceof Error) {
+        console.error("Error fetching riddle:", error.message);
+      } else {
+        console.error("Unknown error:", error);
+      }
     }
   };
 
