@@ -16,7 +16,7 @@ app.use(corsMiddleware);
 const clientDistPath = path.resolve(__dirname, "client/build");
 app.use(express.static(clientDistPath));
 // Serve the index.html file for all non-API routes
-app.get("/", (_req: Request, res: Response) => {
+app.get("*", (_req: Request, res: Response) => {
   res.sendFile(path.join(clientDistPath, "index.html"));
 });
 // Use the riddle route for any requests starting with '/riddle'
