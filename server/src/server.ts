@@ -7,7 +7,7 @@ import corsMiddleware from "./middleware/corsMiddleware"; // Use the middleware 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT;
 
 // Use the imported CORS middleware for all routes
 
@@ -30,7 +30,6 @@ app.use("/api", router);
 app.get("*", (_req: Request, res: Response) => {
   res.sendFile(path.join(clientDistPath, "index.html"));
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
