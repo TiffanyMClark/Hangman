@@ -22,13 +22,15 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.use(express.static(clientDistPath));
+
+// Use the riddle route for any requests starting with '/riddle'
+app.use("/api", router);
+
 // Serve the index.html file for all non-API routes
-app.get("/", (_req: Request, res: Response) => {
+app.get("*", (_req: Request, res: Response) => {
   res.sendFile(path.join(clientDistPath, "index.html"));
 });
-// Use the riddle route for any requests starting with '/riddle'
 
-app.use("/api", router);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
