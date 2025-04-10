@@ -51,24 +51,16 @@ function Hangman() {
 
       const data = await response.json();
 
-      // Check if data is an array and has at least one element
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error("Invalid response from server: No riddles found");
-      }
-
-      // Access the first riddle object
-      const riddle = data[0];
-
-      // Check if the riddle object has the required properties
-      if (!riddle.question || !riddle.answer) {
+      // Ensure data is an object and not an array
+      if (!data || !data.question || !data.answer) {
         throw new Error(
           'Invalid response from server: Missing "question" or "answer"'
         );
       }
 
-      // Set the riddle and selected word
-      setRiddle(riddle); // Assuming setRiddle expects an object with question and answer
-      setSelectedWord(riddle.answer.toLowerCase());
+      // Set the riddle and selected word (converted to lowercase for consistency)
+      setRiddle(data); // The riddle object returned directly
+      setSelectedWord(data.answer.toLowerCase()); // Ensuring answer is lowercase for comparison
     } catch (error) {
       console.error("Error fetching riddle:", error);
     }
