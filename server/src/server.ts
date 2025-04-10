@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
 import router from "./routes/riddleRoute";
 import path from "path";
 import corsMiddleware from "./middleware/corsMiddleware"; // Use the middleware here
+import {sequelize} from "./config/connection"; // Import the sequelize instance
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.get("*", (_req: Request, res: Response) => {
   res.sendFile(path.join(clientDistPath, "index.html"));
 });
 
+sequelize.sync({ force: false }).then(() => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
 });
