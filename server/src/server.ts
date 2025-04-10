@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3002;
 
 app.use(corsMiddleware);
 // Serve static files from the client build directory
-const clientDistPath = path.resolve(__dirname, "../client");
+const clientDistPath = path.resolve(__dirname, "../client/dist");
 app.use(express.static(clientDistPath));
 
 // Use the riddle route for any requests starting with '/riddle'
